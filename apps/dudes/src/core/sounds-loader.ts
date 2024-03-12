@@ -16,11 +16,13 @@ export interface SoundAsset {
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
-class SoundsLoader {
+export class SoundsLoader {
   private sounds = new Map<string, AudioBuffer>()
 
-  async load(sounds: SoundAsset[]): Promise<void> {
-    for (const sound of sounds) {
+  constructor(private readonly soundAssets: SoundAsset[] = []) {}
+
+  async init(): Promise<void> {
+    for (const sound of this.soundAssets) {
       try {
         const response = await fetch(sound.src)
         const buffer = await response.arrayBuffer()
@@ -53,5 +55,3 @@ class SoundsLoader {
     })
   }
 }
-
-export const soundsLoader = new SoundsLoader()

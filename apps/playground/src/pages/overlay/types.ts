@@ -1,5 +1,5 @@
-import { DudesLayer } from '@twirapp/dudes/types'
-import type { DudesTypes } from '@twirapp/dudes/types'
+import { DudesLayer } from '@twirapp/dudes-vue/types'
+import type { DudesTypes } from '@twirapp/dudes-vue/types'
 
 export type SpriteLayers = Record<DudesLayer, string>
 

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import DudesOverlay, { DudesFrameTags, DudesLayers } from '@twirapp/dudes'
+import DudesOverlay, { DudesFrameTags, DudesLayers } from '@twirapp/dudes-vue'
 import { onMounted } from 'vue'
 import { createDudeSprite } from './utils.js'
 import { assetsLoaderOptions, dudesSounds } from './constants.js'
 import { useDudesSettings } from './use-dudes-settings.js';
 import { storeToRefs } from 'pinia'
 
-import type { Dude } from '@twirapp/dudes/types';
+import type { Dude } from '@twirapp/dudes-vue/types';
 import type { OverlayMessageEvent } from './types.js'
 
 const {
@@ -25,12 +25,12 @@ onMounted(async () => {
 })
 
 async function onMessage(event: MessageEvent<string>) {
-  if (!dudesRef.value) return
+  if (!dudesRef.value || !dudesRef.value.dudes) return
 
   const { type, data } = JSON.parse(event.data) as OverlayMessageEvent
 
   if (type === 'spawn') {
-    await dudesRef.value.createDude({
+    await dudesRef.value.dudes.createDude({
       id: data.id,
       name: data.name,
       sprite: createDudeSprite(spriteLayers.value)
@@ -51,6 +51,7 @@ async function onMessage(event: MessageEvent<string>) {
 
   if (type === 'update-settings') {
     dudesSettings.value = data
+    traverseDudes((dude) => dude.updateScale(data.dude.scale, true))
   }
 
   if (type === 'jump') {
@@ -94,14 +95,14 @@ async function onMessage(event: MessageEvent<string>) {
   }
 
   if (type === 'clear') {
-    dudesRef.value.removeAllDudes()
+    dudesRef.value.dudes.removeAllDudes()
   }
 }
 
 function traverseDudes(callback: (dude: Dude) => void): void {
-  if (!dudesRef.value) return
-  for (const dude of dudesRef.value.dudes.values()) {
-    callback(dude as Dude)
+  if (!dudesRef.value || !dudesRef.value.dudes) return
+  for (const dude of dudesRef.value.dudes.dudes.values()) {
+    callback(dude)
   }
 }
 

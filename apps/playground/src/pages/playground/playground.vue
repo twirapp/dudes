@@ -41,7 +41,6 @@ watch(spriteColors, (colors) => {
   })
 }, { deep: true })
 
-
 watch(dudesInited, (inited) => {
   if (!inited) return
 

@@ -2,23 +2,7 @@ import type { AssetsLoaderOptions } from './core/assets-loader.js'
 import type { Dude } from './core/dude.js'
 import type { SoundAsset, SoundType } from './core/sounds-loader.js'
 import type { DudesLayer, DudeSpriteFrameTag } from './core/sprite-provider.js'
-
-export type RecursivePartial<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[]
-    ? RecursivePartial<U>[]
-    : T[P] extends object
-      ? RecursivePartial<T[P]>
-      : T[P]
-}
-
-export interface DudesMethods {
-  dudes: Map<string, Dude>
-  initDudes: () => Promise<void>
-  getDude: (id: string) => Dude | undefined
-  createDude: (config: DudesTypes.DudeConfig) => Promise<Dude>
-  removeDude: (id: string) => void
-  removeAllDudes: () => void
-}
+import type { RecursivePartial } from './helpers.js'
 
 export namespace DudesTypes {
   export interface DudeStyles {
@@ -251,7 +235,7 @@ export namespace DudesTypes {
   }
 }
 
-export type DudesStyles = RecursivePartial<{
+export type DudePartialSettings = RecursivePartial<{
   dude: DudesTypes.DudeStyles
   sounds: DudesTypes.DudeSounds
   message: DudesTypes.MessageBoxStyles

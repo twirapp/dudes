@@ -1,14 +1,15 @@
 import { Text } from 'pixi.js'
 
-import { dudesSettings } from '../composables/use-settings.js'
 import { SPRITE_SIZE } from '../constants.js'
 import type { DudesTypes } from '../types.js'
+import type { DudeInternalSettings } from './dude-settings.js'
 
 export class DudeNameBox {
   readonly view: Text
 
   constructor(
     name: string,
+    private readonly settings: DudeInternalSettings,
     private readonly styles?: DudesTypes.IndividualNameBoxStyles
   ) {
     this.view = new Text(name)
@@ -17,12 +18,12 @@ export class DudeNameBox {
   }
 
   update(scale: number): void {
-    this.view.visible = dudesSettings.value.name.enabled
+    this.view.visible = this.settings.name.enabled
     this.view.position.y = -((SPRITE_SIZE * scale) / 2)
 
     const styles = this.styles
-      ? { ...dudesSettings.value.name, ...this.styles }
-      : dudesSettings.value.name
+      ? { ...this.settings.name, ...this.styles }
+      : this.settings.name
 
     this.updateParams(styles)
   }

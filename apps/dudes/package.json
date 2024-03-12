@@ -16,24 +16,16 @@
     }
   },
   "scripts": {
-    "dev": "pnpm run \"/^watch:.*/\"",
-    "watch:build": "vite build --watch",
-    "watch:types": "pnpm types --watch",
-    "build": "vite build && pnpm types",
-    "types": "vue-tsc --declaration --emitDeclarationOnly "
+    "dev": "vite build --watch",
+    "build": "vite build"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "5.0.4",
-    "vite": "5.1.5",
-    "vue-tsc": "2.0.6"
-  },
-  "peerDependencies": {
-    "vue": ">=3.0.0"
+    "vite": "5.1.6",
+    "vite-plugin-dts": "3.7.3"
   },
   "dependencies": {
     "@pixi/gif": "2.1.1",
     "gsap": "3.12.5",
-    "pixi.js": "7.4.0",
-    "vue": "3.4.21"
+    "pixi.js": "7.4.0"
   }
 }

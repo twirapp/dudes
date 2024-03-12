@@ -1,7 +1,7 @@
 import { AnimatedSprite, SCALE_MODES } from 'pixi.js'
 import type { FrameObject } from 'pixi.js'
 
-import { assetsLoader } from './assets-loader.js'
+import type { AssetsLoader } from './assets-loader.js'
 
 export const DudesLayers = {
   body: 'body',
@@ -25,8 +25,10 @@ export type DudeSpriteFrameTag = keyof typeof DudesFrameTags
 
 export type DudeFrameObject = Record<string, FrameObject[]>
 
-class SpriteProvider {
+export class SpriteProvider {
   private readonly spriteTextures = new Map<string, DudeFrameObject>()
+
+  constructor(private readonly assetsLoader: AssetsLoader) {}
 
   unloadTextures(spriteName: string): void {
     for (const layer of DudesLayersKeys) {
@@ -45,13 +47,19 @@ class SpriteProvider {
     return `${spriteName}.${layer}.${frameTag}`
   }
 
-  private getAnimatedSprite(spriteKey: string, layer: string) {
+  private getAnimatedSprite(
+    spriteKey: string,
+    layer: string
+  ): AnimatedSprite | null {
     const textures = this.spriteTextures.get(spriteKey)
     if (textures) return this.texturesToSprites(textures, layer)
     return null
   }
 
-  private texturesToSprites(textures: DudeFrameObject, spriteType: string) {
+  private texturesToSprites(
+    textures: DudeFrameObject,
+    spriteType: string
+  ): AnimatedSprite {
     const texture = textures[spriteType]
     const sprite = new AnimatedSprite(texture, false)
     sprite.texture.baseTexture.scaleMode = SCALE_MODES.NEAREST
@@ -59,7 +67,10 @@ class SpriteProvider {
     return sprite
   }
 
-  getSprite(spriteName: string, frameTag: DudeSpriteFrameTag) {
+  getSprite(
+    spriteName: string,
+    frameTag: DudeSpriteFrameTag
+  ): Record<string, AnimatedSprite> {
     const sprites: Record<string, AnimatedSprite> = {}
 
     for (const layer of DudesLayersKeys) {
@@ -70,7 +81,7 @@ class SpriteProvider {
         continue
       }
 
-      const assets = assetsLoader.getAssets(spriteName, layer)
+      const assets = this.assetsLoader.getAssets(spriteName, layer)
       if (!assets) continue
 
       const layers = assets.data.meta.layers
@@ -101,5 +112,3 @@ class SpriteProvider {
     return sprites
   }
 }
-
-export const spriteProvider = new SpriteProvider()

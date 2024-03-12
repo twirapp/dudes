@@ -6,8 +6,9 @@ import type {
 } from 'pixi.js'
 
 import { isBase64 } from '../helpers.js'
-import { DudesFrameTags, spriteProvider } from './sprite-provider.js'
+import { DudesFrameTags } from './sprite-provider.js'
 import type { DudesTypes } from '../types.js'
+import type { SpriteProvider } from './sprite-provider.js'
 
 export interface SpriteFrameData extends ISpritesheetFrameData {
   duration: number
@@ -92,6 +93,13 @@ type Bundles = Record<string, SpriteLayer>
 
 export class AssetsLoader {
   private bundles: Bundles = {}
+  cb: (spriteName: string) => void
+
+  constructor(private readonly loaderOptions: AssetsLoaderOptions = {}) {}
+
+  onUnload(cb: (spriteName: string) => void): void {
+    this.cb = cb
+  }
 
   getAssets(
     spriteName: string,
@@ -100,15 +108,17 @@ export class AssetsLoader {
     return this.bundles?.[spriteName]?.[layerType]
   }
 
-  async init(loadOptions: AssetsLoaderOptions = {}): Promise<void> {
-    await Assets.init({ ...loadOptions })
+  async init(): Promise<void> {
+    await Assets.init({ ...this.loaderOptions })
   }
 
-  async unload(spriteName: string): Promise<void> {
-    if (!this.bundles[spriteName]) return
+  async unload(spriteName: string): Promise<boolean> {
+    if (!this.bundles[spriteName]) return false
     await Assets.unloadBundle(spriteName)
-    spriteProvider.unloadTextures(spriteName)
+    this.cb(spriteName)
+    // this.spriteProvider.unloadTextures(spriteName)
     delete this.bundles[spriteName]
+    return true
   }
 
   async load(spriteData: DudesTypes.SpriteData): Promise<void> {
@@ -127,5 +137,3 @@ export class AssetsLoader {
     this.bundles[spriteData.name] = loadedSpriteLayers
   }
 }
-
-export const assetsLoader = new AssetsLoader()
