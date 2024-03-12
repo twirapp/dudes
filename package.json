@@ -1,0 +1,21 @@
+{
+  "name": "dudes-workspace",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev --filter=./apps/*",
+    "build": "turbo build --filter=./apps/*",
+    "format": "prettier --write \"**/*.{js,ts,json}\"",
+    "changeset": "changeset"
+  },
+  "devDependencies": {
+    "@changesets/cli": "2.27.1",
+    "@crashmax/prettier-config": "5.0.2",
+    "turbo": "1.12.5"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "v-tweakpane@0.2.0": "patches/v-tweakpane@0.2.0.patch"
+    }
+  }
+}

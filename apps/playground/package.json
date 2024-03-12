@@ -1,0 +1,42 @@
+{
+  "name": "@dudes/playground",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tweakpane/core": "2.0.3",
+    "@tweakpane/plugin-essentials": "0.2.1",
+    "@twirapp/dudes": "workspace:*",
+    "@vee-validate/zod": "4.12.5",
+    "@vueuse/core": "10.9.0",
+    "@zero-dependency/utils": "1.7.5",
+    "class-variance-authority": "0.7.0",
+    "clsx": "2.1.0",
+    "lucide-vue-next": "0.350.0",
+    "pinia": "2.1.7",
+    "radix-vue": "1.5.0",
+    "tailwind-merge": "2.2.1",
+    "tailwindcss-animate": "1.0.7",
+    "tweakpane": "4.0.3",
+    "v-tweakpane": "0.2.0",
+    "vee-validate": "4.12.5",
+    "vue": "3.4.21",
+    "vue-router": "4.3.0",
+    "zod": "3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.25",
+    "@vitejs/plugin-vue": "5.0.4",
+    "autoprefixer": "10.4.18",
+    "tailwindcss": "3.4.1",
+    "typescript": "5.4.2",
+    "vite": "5.1.5",
+    "vite-plugin-virtual-mpa": "1.10.1",
+    "vue-tsc": "2.0.6"
+  }
+}

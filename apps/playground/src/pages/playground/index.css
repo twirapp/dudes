@@ -1,0 +1,84 @@
+@import 'v-tweakpane/dist/v-tweakpane.css';
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --tp-base-background-color: hsla(0, 0%, 0%, 0.75);
+  --tp-base-shadow-color: hsla(0, 0%, 0%, 0.2);
+  --tp-button-background-color: hsla(0, 0%, 70%, 1);
+  --tp-button-background-color-active: hsla(0, 0%, 85%, 1);
+  --tp-button-background-color-focus: hsla(0, 0%, 80%, 1);
+  --tp-button-background-color-hover: hsla(0, 0%, 75%, 1);
+  --tp-button-foreground-color: hsla(0, 0%, 0%, 1);
+  --tp-container-background-color: hsla(0, 0%, 10%, 1);
+  --tp-container-background-color-active: hsla(0, 0%, 25%, 1);
+  --tp-container-background-color-focus: hsla(0, 0%, 20%, 1);
+  --tp-container-background-color-hover: hsla(0, 0%, 15%, 1);
+  --tp-container-foreground-color: hsla(0, 0%, 50%, 1);
+  --tp-groove-foreground-color: hsla(0, 0%, 10%, 1);
+  --tp-input-background-color: hsla(0, 0%, 10%, 1);
+  --tp-input-background-color-active: hsla(0, 0%, 25%, 1);
+  --tp-input-background-color-focus: hsla(0, 0%, 20%, 1);
+  --tp-input-background-color-hover: hsla(0, 0%, 15%, 1);
+  --tp-input-foreground-color: hsla(0, 0%, 70%, 1);
+  --tp-label-foreground-color: hsla(0, 0%, 50%, 1);
+  --tp-monitor-background-color: hsla(0, 0%, 8%, 1);
+  --tp-monitor-foreground-color: hsla(0, 0%, 48%, 1);
+}
+
+body {
+  overflow: hidden;
+  background: #333;
+  color: #fff;
+}
+
+#app {
+  height: 100vh;
+}
+
+main {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 400px !important;
+}
+
+/* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #000000 transparent;
+}
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: #000000;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #000000;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #000000;
+}
