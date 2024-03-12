@@ -2,9 +2,6 @@
 
 > Animated dudes for chatters in your stream
 
-> [!WARNING]
-> Permantly moved to [twirapp/dudes](https://github.com/twirapp/dudes)
-
 ## Install
 
 ```bash
