@@ -1,5 +1,11 @@
 # @twirapp/dudes
 
+## 1.2.0
+
+### Minor Changes
+
+- feat: release core lib
+
 ## 1.1.2
 
 ### Patch Changes
