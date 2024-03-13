@@ -1,7 +1,7 @@
 import { AnimatedSprite, SCALE_MODES } from 'pixi.js'
 import type { FrameObject } from 'pixi.js'
 
-import type { AssetsLoader } from './assets-loader.js'
+import type { SpriteLoader } from './sprite-loader.js'
 
 export const DudesLayers = {
   body: 'body',
@@ -25,21 +25,21 @@ export type DudeSpriteFrameTag = keyof typeof DudesFrameTags
 
 export type DudeFrameObject = Record<string, FrameObject[]>
 
-export class SpriteProvider {
-  private readonly spriteTextures = new Map<string, DudeFrameObject>()
+export class TextureProvider {
+  private readonly textures = new Map<string, DudeFrameObject>()
 
-  constructor(private readonly assetsLoader: AssetsLoader) {}
+  constructor(private readonly assetsLoader: SpriteLoader) {}
 
   unloadTextures(spriteName: string): void {
     for (const layer of DudesLayersKeys) {
       for (const frameTag of DudeFrameTagsKeys) {
-        const spriteKey = this.getSpriteKey(spriteName, layer, frameTag)
-        this.spriteTextures.delete(spriteKey)
+        const spriteKey = this.getTextureKey(spriteName, layer, frameTag)
+        this.textures.delete(spriteKey)
       }
     }
   }
 
-  private getSpriteKey(
+  private getTextureKey(
     spriteName: string,
     layer: string,
     frameTag: string
@@ -47,16 +47,16 @@ export class SpriteProvider {
     return `${spriteName}.${layer}.${frameTag}`
   }
 
-  private getAnimatedSprite(
+  private getAnimatedTexture(
     spriteKey: string,
     layer: string
   ): AnimatedSprite | null {
-    const textures = this.spriteTextures.get(spriteKey)
-    if (textures) return this.texturesToSprites(textures, layer)
+    const textures = this.textures.get(spriteKey)
+    if (textures) return this.textureToAnimatedSprite(textures, layer)
     return null
   }
 
-  private texturesToSprites(
+  private textureToAnimatedSprite(
     textures: DudeFrameObject,
     spriteType: string
   ): AnimatedSprite {
@@ -67,21 +67,21 @@ export class SpriteProvider {
     return sprite
   }
 
-  getSprite(
+  getTexture(
     spriteName: string,
     frameTag: DudeSpriteFrameTag
   ): Record<string, AnimatedSprite> {
     const sprites: Record<string, AnimatedSprite> = {}
 
     for (const layer of DudesLayersKeys) {
-      const spriteKey = this.getSpriteKey(spriteName, layer, frameTag)
-      const sprite = this.getAnimatedSprite(spriteKey, layer)
+      const spriteKey = this.getTextureKey(spriteName, layer, frameTag)
+      const sprite = this.getAnimatedTexture(spriteKey, layer)
       if (sprite) {
         sprites[layer] = sprite
         continue
       }
 
-      const assets = this.assetsLoader.getAssets(spriteName, layer)
+      const assets = this.assetsLoader.getSprite(spriteName, layer)
       if (!assets) continue
 
       const layers = assets.data.meta.layers
@@ -104,8 +104,8 @@ export class SpriteProvider {
           }
         }
 
-        this.spriteTextures.set(spriteKey, textures)
-        sprites[layer] = this.texturesToSprites(textures, layer)
+        this.textures.set(spriteKey, textures)
+        sprites[layer] = this.textureToAnimatedSprite(textures, layer)
       }
     }
 

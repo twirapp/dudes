@@ -1,5 +1,5 @@
 export function isBase64(str: string): boolean {
-  return str.startsWith('data:image/png;base64')
+  return str.trim().startsWith('data:image/png;base64')
 }
 
 const option = new Option()

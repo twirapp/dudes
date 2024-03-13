@@ -1,11 +1,11 @@
 import { Container, Renderer } from 'pixi.js'
 
-import { AssetsLoader } from './core/assets-loader.js'
 import { DudeSettings } from './core/dude-settings.js'
 import { Dude } from './core/dude.js'
 import { RequestAnimationFrame } from './core/raf.js'
 import { SoundsLoader } from './core/sounds-loader.js'
-import { SpriteProvider } from './core/sprite-provider.js'
+import { SpriteLoader } from './core/sprite-loader.js'
+import { TextureProvider } from './core/texture-provider.js'
 import type {
   AssetsLoaderOptions,
   DudePartialSettings,
@@ -22,9 +22,9 @@ interface DudesParams {
 export class Dudes {
   private settings: DudeSettings
   private raf: RequestAnimationFrame
-  private spriteProvider: SpriteProvider
-  private assetsLoader: AssetsLoader
   private soundsLoader: SoundsLoader
+  private spriteLoader: SpriteLoader
+  private textureProvider: TextureProvider
   private renderer: Renderer | null = null
 
   private dudesMap = new Map<string, Dude>()
@@ -36,12 +36,8 @@ export class Dudes {
       this.settings.update(params.settings)
     }
 
-    this.assetsLoader = new AssetsLoader(params.assetsLoaderOptions)
-    this.spriteProvider = new SpriteProvider(this.assetsLoader)
-    // TODO: refactor!
-    this.assetsLoader.onUnload((spriteName) => {
-      this.spriteProvider.unloadTextures(spriteName)
-    })
+    this.spriteLoader = new SpriteLoader(params.assetsLoaderOptions)
+    this.textureProvider = new TextureProvider(this.spriteLoader)
     this.soundsLoader = new SoundsLoader(params.soundAssets)
 
     this.onResize = this.onResize.bind(this)
@@ -50,7 +46,7 @@ export class Dudes {
   }
 
   async init(canvas: HTMLCanvasElement): Promise<void> {
-    await this.assetsLoader.init()
+    await this.spriteLoader.init()
     await this.soundsLoader.init()
 
     this.renderer = new Renderer({
@@ -104,10 +100,10 @@ export class Dudes {
 
     const dude = new Dude(
       config,
-      this.spriteProvider,
-      this.assetsLoader,
+      this.textureProvider,
+      this.spriteLoader,
       this.soundsLoader,
-      this.settings.settings
+      this.settings
     )
     dude.onRemove(() => this.removeDude(config.id))
     await dude.init()
@@ -125,13 +121,15 @@ export class Dudes {
     this.dudesMap.delete(dude.config.id)
     this.dudesContainer.removeChild(dude.view)
 
+    // cleanup unused sprites
+    const spriteName = dude.config.sprite.name
     const isSpriteUsed = Array.from(this.dudesMap.values()).some(
-      (v) => v.config.sprite.name === dude.config.sprite.name
+      (v) => v.config.sprite.name === spriteName
     )
 
-    if (!isSpriteUsed) {
-      this.assetsLoader.unload(dude.config.name)
-    }
+    if (isSpriteUsed) return
+    this.textureProvider.unloadTextures(spriteName)
+    this.spriteLoader.unloadSprite(spriteName)
   }
 
   removeAllDudes(): void {

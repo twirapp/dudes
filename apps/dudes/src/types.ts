@@ -1,7 +1,7 @@
-import type { AssetsLoaderOptions } from './core/assets-loader.js'
 import type { Dude } from './core/dude.js'
 import type { SoundAsset, SoundType } from './core/sounds-loader.js'
-import type { DudesLayer, DudeSpriteFrameTag } from './core/sprite-provider.js'
+import type { AssetsLoaderOptions } from './core/sprite-loader.js'
+import type { DudesLayer, DudeSpriteFrameTag } from './core/texture-provider.js'
 import type { RecursivePartial } from './helpers.js'
 
 export namespace DudesTypes {

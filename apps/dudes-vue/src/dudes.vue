@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch, type Ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch, shallowRef, type ShallowRef } from 'vue'
 import { Dudes } from '@twirapp/dudes'
 import type { AssetsLoaderOptions, DudePartialSettings, SoundAsset } from './types.js'
 
@@ -9,7 +9,7 @@ const props = defineProps<{
   settings?: DudePartialSettings
 }>()
 
-const dudes = ref(null) as Ref<Dudes | null>
+const dudes = shallowRef(null) as ShallowRef<Dudes | null>
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 
 async function initDudes() {

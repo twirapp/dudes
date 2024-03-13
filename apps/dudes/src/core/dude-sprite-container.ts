@@ -1,7 +1,7 @@
 import { AnimatedSprite, Container } from 'pixi.js'
 
-import { DudesLayersKeys } from './sprite-provider.js'
-import type { DudesLayer } from './sprite-provider.js'
+import { DudesLayersKeys } from './texture-provider.js'
+import type { DudesLayer } from './texture-provider.js'
 
 export class DudeSpriteContainer {
   readonly view = new Container()
@@ -33,8 +33,8 @@ export class DudeSpriteContainer {
   }
 
   setColor(layer: DudesLayer, color: string): void {
-    const a = this[layer]
-    if (!a) return
-    a.tint = color
+    const dudeLayer = this[layer]
+    if (!dudeLayer) return
+    dudeLayer.tint = color
   }
 }

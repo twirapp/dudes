@@ -8,7 +8,7 @@ import {
   DELTA_TIME
 } from '../constants.js'
 import type { DudesTypes } from '../types.js'
-import type { DudeInternalSettings } from './dude-settings.js'
+import type { DudeSettings } from './dude-settings.js'
 
 export class DudeMessageBox {
   readonly view = new Container()
@@ -24,7 +24,7 @@ export class DudeMessageBox {
   private messageQueue: string[] = []
 
   constructor(
-    private readonly settings: DudeInternalSettings,
+    private readonly settings: DudeSettings,
     private readonly styles?: DudesTypes.IndividualMessageBoxStyles
   ) {
     this.view.zIndex = 3
@@ -53,8 +53,8 @@ export class DudeMessageBox {
 
   private mergeStyles(): DudesTypes.MessageBoxStyles {
     return this.styles
-      ? { ...this.settings.message, ...this.styles }
-      : this.settings.message
+      ? { ...this.settings.settings.message, ...this.styles }
+      : this.settings.settings.message
   }
 
   update(): void {
@@ -77,7 +77,7 @@ export class DudeMessageBox {
   }
 
   add(message: string): void {
-    if (!message.length || !this.settings.message.enabled) return
+    if (!message.length || !this.settings.settings.message.enabled) return
     this.messageQueue.push(message.trim())
   }
 
@@ -102,7 +102,7 @@ export class DudeMessageBox {
     }
 
     this.container.alpha = 0
-    this.currentShowTime = this.settings.message.showTime
+    this.currentShowTime = this.settings.settings.message.showTime
     this.currentAnimationTime = ANIMATION_TIME
   }
 
@@ -112,7 +112,7 @@ export class DudeMessageBox {
       if (message) {
         this.container.removeChildren()
         this.show(message)
-        this.currentShowTime = this.settings.message.showTime
+        this.currentShowTime = this.settings.settings.message.showTime
         this.currentAnimationTime = ANIMATION_TIME
       }
     } else {
