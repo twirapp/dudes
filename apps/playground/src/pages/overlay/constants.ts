@@ -26,7 +26,7 @@ export const dudesLayers: Record<DudesLayer, { name: string; src: string }[]> =
     body: [
       {
         name: 'Dude',
-        src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAAgCAYAAACy9KU0AAAAAXNSR0IArs4c6QAAAVVJREFUeJzt3EFuwyAQBVCoehnfuCfLpoehC9ep1UYuWDhD7PckVjb+I0CjbEhKAAAAAAAAAEAnueHdcuC3qVO7B0etfXR+pOjzf8r82iJLKW35OeeW71fV0Pj+S2xAS37tHhyw9iPkR4o+/6fNf68Jv91uTeEppVRKSTnnUlNE3eeaF6BX9hD5LXvQee2HyN85r8vZCz7/p86vaUDRTr0B/Ku5+S+s//jeoguADbua/33y3Lj2/nriCTQgIIwGBITRgIAwGhAQRgMCwmhAQBgNCAijAQFhNCAgjAYEhHmV2/BXz0/p+1rCNE0R2VH51ZkH1xK9/xfP//hMaT4MZZHmOzb38efZPKeL5U5PS/7eC4wj5q9LqRxHicgve/WqJXr/y8+dtofjUV1H5W+twXrU5rd2qPVXf8/detbL1fOvKvLvONZG3f9nZjvnAAAAAAAAADCmLynTrb5yQ6D8AAAAAElFTkSuQmCC'
+        src: 'body/dude.png'
       },
       {
         name: 'Cat',
