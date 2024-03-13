@@ -25,7 +25,7 @@ onMounted(async () => {
 })
 
 async function onMessage(event: MessageEvent<string>) {
-  if (!dudesRef.value || !dudesRef.value.dudes) return
+  if (!dudesRef.value || !dudesRef.value.dudes || event.source === window) return
 
   const { type, data } = JSON.parse(event.data) as OverlayMessageEvent
 

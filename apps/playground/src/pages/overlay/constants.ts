@@ -11,9 +11,8 @@ export const dudesSounds: SoundAsset[] = [
   }
 ]
 
-export const baseUrl = import.meta.env.DEV
-  ? location.origin
-  : 'https://twirapp.github.com/dudes'
+const productionUrl = 'https://twirapp.github.io/dudes'
+export const baseUrl = import.meta.env.DEV ? location.origin : productionUrl
 
 export const assetsLoaderOptions: AssetsLoaderOptions = {
   basePath: baseUrl + '/sprites/',
