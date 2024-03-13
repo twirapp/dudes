@@ -1,0 +1,1 @@
+import{d as t}from"./sprite-builder-Cemywc23.js";import{d as a,c as s,f as o,u as n,F as r,b as e,a as c}from"./utils-COYZbcGx.js";const m=e("div",null,[e("h3",{class:"text-lg font-medium"}," Catalog "),e("p",{class:"text-sm text-muted-foreground"}," TODO: description ")],-1),i=a({__name:"catalog",setup(l){return(d,_)=>(c(),s(r,null,[m,o(n(t))],64))}});export{i as default};
