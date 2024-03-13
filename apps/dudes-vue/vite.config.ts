@@ -1,29 +1,27 @@
+import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
-import dts from 'vite-plugin-dts'
 
 export default defineConfig({
-  plugins: [dts()],
+  plugins: [vue()],
   build: {
     sourcemap: true,
     minify: false,
     emptyOutDir: false,
     lib: {
       entry: './src/index.ts',
-      name: 'dudes',
-      fileName: 'dudes'
+      name: 'dudes-vue',
+      fileName: 'dudes-vue'
     },
     rollupOptions: {
       external: [
-        'gsap',
-        'pixi.js',
-        '@pixi/gif'
+        'vue',
+        '@twirapp/dudes'
       ],
       output: {
         exports: 'named',
         globals: {
-          gsap: 'gsap',
-          'pixi.js': 'pixi',
-          '@pixi/gif': 'pixiGIF'
+          vue: 'Vue',
+          '@twirapp/dudes': 'dudes'
         }
       }
     }

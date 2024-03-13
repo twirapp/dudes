@@ -5,21 +5,21 @@
 ## Install
 
 ```bash
-pnpm add @twirapp/dudes
+pnpm add @twirapp/dudes-vue
 ```
 
 ## Usage
 
 ```vue
 <script setup lang="ts">
-import DudesOverlay, { DudesLayers } from '@twirapp/dudes'
+import DudesOverlay, { DudesLayers } from '@twirapp/dudes-vue'
 import { onMounted, ref } from 'vue'
 
 import type {
-  DudesStyles,
+  DudePartialSettings,
   AssetsLoaderOptions,
   SoundAsset
-} from '@twirapp/dudes/types'
+} from '@twirapp/dudes-vue/types'
 
 const soundAssets: SoundAsset[] = [
   {
@@ -35,30 +35,30 @@ const assetsLoaderOptions: AssetsLoaderOptions = {
   }
 }
 
-const settings = ref<DudesStyles>({
+const settings = ref<DudePartialSettings>({
   // override default settings
 })
 
-const dudesRef = ref<DudesMethods | null>(null)
+const dudesRef = ref<InstanceType<typeof DudesOverlay> | null>(null)
 
 onMounted(async () => {
-  if (!dudesRef.value) return
+  if (!dudesRef.value?.dudes) return
   await dudesRef.value.initDudes()
 
   const dudeName = 'Twir'
-  const dude = await dudesRef.value.createDude({
+  const dude = await dudesRef.value.dudes.createDude({
     id: dudeName,
-    name,
+    name: dudeName,
     sprite: {
       name: 'dude',
       layers: [
         {
-          layer: DudesLayers.Body,
+          layer: DudesLayers.body,
           // http://localhost:5173/sprites/body.png
           src: 'body.png'
         },
         {
-          layer: DudesLayers.Eyes,
+          layer: DudesLayers.eyes,
           // http://localhost:5173/sprites/eyes.png
           src: 'eyes.png'
         }

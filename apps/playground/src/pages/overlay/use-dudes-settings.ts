@@ -1,6 +1,7 @@
+import Dudes from '@twirapp/dudes-vue'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { DudesMethods, DudesTypes } from '@twirapp/dudes/types'
+import type { DudesTypes } from '@twirapp/dudes-vue/types'
 
 import { randomRgbColor } from '@/utils.js'
 import { dudesLayers } from './constants.js'
@@ -77,7 +78,7 @@ export const useDudesSettings = defineStore('use-dudes', () => {
     }
   })
 
-  const dudesRef = ref<DudesMethods>()
+  const dudesRef = ref<InstanceType<typeof Dudes> | null>()
 
   return {
     spriteLayers,

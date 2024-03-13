@@ -2,7 +2,7 @@ import type {
   AssetsLoaderOptions,
   DudesLayer,
   SoundAsset
-} from '@twirapp/dudes/types'
+} from '@twirapp/dudes-vue/types'
 
 export const dudesSounds: SoundAsset[] = [
   {

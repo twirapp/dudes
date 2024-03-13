@@ -1,5 +1,5 @@
-import { DudesLayers } from '@twirapp/dudes'
-import type { DudesLayer, DudesTypes } from '@twirapp/dudes/types'
+import { DudesLayers } from '@twirapp/dudes-vue'
+import type { DudesLayer, DudesTypes } from '@twirapp/dudes-vue/types'
 
 import type { SpriteLayers } from './types.js'
 

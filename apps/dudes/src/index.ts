@@ -1,5 +1,2 @@
-import DudesOverlay from './dudes.vue'
-
-export { DudesLayers, DudesFrameTags } from './core/sprite-provider.js'
-
-export default DudesOverlay
+export { Dudes } from './dudes.js'
+export { DudesLayers, DudesFrameTags } from './core/texture-provider.js'

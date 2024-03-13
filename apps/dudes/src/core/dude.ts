@@ -1,8 +1,6 @@
 import { Container } from 'pixi.js'
 import type { IPointData } from 'pixi.js'
 
-import { deleteDude } from '../composables/use-dudes.js'
-import { dudesSettings } from '../composables/use-settings.js'
 import {
   Collider,
   DELTA_TIME,
@@ -11,31 +9,30 @@ import {
   SPRITE_SIZE
 } from '../constants.js'
 import { isValidColor } from '../helpers.js'
-import { assetsLoader } from './assets-loader.js'
 import { DudeEmoteSpitter } from './dude-emote-spitter.js'
 import { DudeMessageBox } from './dude-message-box.js'
 import { DudeNameBox } from './dude-name-box.js'
 import { DudeSpriteContainer } from './dude-sprite-container.js'
-import { Sound, soundsLoader } from './sounds-loader.js'
+import { Sound } from './sounds-loader.js'
 import {
   DudesFrameTags,
   DudesLayers,
-  DudesLayersKeys,
-  spriteProvider
-} from './sprite-provider.js'
+  DudesLayersKeys
+} from './texture-provider.js'
 import type { DudesTypes } from '../types.js'
-import type { DudesLayer, DudeSpriteFrameTag } from './sprite-provider.js'
+import type { DudeSettings } from './dude-settings.js'
+import type { SoundsLoader } from './sounds-loader.js'
+import type { SpriteLoader } from './sprite-loader.js'
+import type {
+  DudesLayer,
+  DudeSpriteFrameTag,
+  TextureProvider
+} from './texture-provider.js'
 
 export class Dude {
   readonly view = new Container()
 
-  private colors: Record<DudesLayer, string> = {
-    body: dudesSettings.value.dude.bodyColor,
-    eyes: '#FFF',
-    mouth: '#FFF',
-    hat: '#FFF',
-    cosmetics: '#FFF'
-  }
+  private colors: Record<DudesLayer, string>
   private direction: number
   private currentFrameTag?: DudeSpriteFrameTag
 
@@ -59,30 +56,54 @@ export class Dude {
   private isGrowing = false
   private growingTime: number
 
-  private currentLifeTime = dudesSettings.value.dude.maxLifeTime
+  private currentLifeTime: number
   private maxOpacityTime = 5000
   private currentOpacityTime = this.maxOpacityTime
-  private scale = dudesSettings.value.dude.scale
+  private scale: number
 
-  constructor(public readonly config: DudesTypes.DudeConfig) {
+  private onRemoveCallbacks: (() => void)[] = []
+
+  constructor(
+    public readonly config: DudesTypes.DudeConfig,
+    private readonly textureProvider: TextureProvider,
+    private readonly spriteLoader: SpriteLoader,
+    private readonly soundsLoader: SoundsLoader,
+    private readonly settings: DudeSettings
+  ) {
     this.jump = this.jump.bind(this)
   }
 
   async init(): Promise<void> {
     if (this.sprite) return
 
-    await assetsLoader.load(this.config.sprite)
+    await this.spriteLoader.loadSprite(this.config.sprite)
+
+    this.colors = {
+      body: this.settings.settings.dude.bodyColor,
+      eyes: '#FFF',
+      mouth: '#FFF',
+      hat: '#FFF',
+      cosmetics: '#FFF'
+    }
+    this.currentLifeTime = this.settings.settings.dude.maxLifeTime
+    this.scale = this.settings.settings.dude.scale
 
     this.view.y = -(Collider.Y + Collider.Height - SPRITE_SIZE / 2) * this.scale
     this.view.x =
       Math.random() * (window.innerWidth - SPRITE_SIZE * this.scale) +
       (SPRITE_SIZE / 2) * this.scale
 
-    this.nameBox = new DudeNameBox(this.config.name, this.config.styles?.name)
-    this.messageBox = new DudeMessageBox(this.config.styles?.message)
+    this.nameBox = new DudeNameBox(
+      this.config.name,
+      this.settings,
+      this.config.styles?.name
+    )
+    this.messageBox = new DudeMessageBox(
+      this.settings,
+      this.config.styles?.message
+    )
     this.emoteSpitter = new DudeEmoteSpitter()
 
-    this.view.sortableChildren = true
     this.view.addChild(this.nameBox.view)
     this.view.addChild(this.messageBox.view)
     this.view.addChild(this.emoteSpitter.view)
@@ -126,14 +147,14 @@ export class Dude {
   }
 
   addEmotes(emotes: string[]): void {
-    if (!dudesSettings.value.emotes.enabled) return
+    if (!this.settings.settings.emotes.enabled) return
     this.emoteSpitter.add(emotes)
     this.updateLifeTime()
   }
 
   grow(): void {
     if (this.isGrowing) return
-    this.growingTime = dudesSettings.value.dude.growTime
+    this.growingTime = this.settings.settings.dude.growTime
     this.isGrowing = true
     this.updateLifeTime({ lifeTime: this.currentLifeTime + this.growingTime })
   }
@@ -142,7 +163,7 @@ export class Dude {
     frameTag: DudeSpriteFrameTag,
     force = false
   ): Promise<void> {
-    const dudeSprite = spriteProvider.getSprite(
+    const dudeSprite = this.textureProvider.getTexture(
       this.config.sprite.name,
       frameTag
     )
@@ -156,10 +177,10 @@ export class Dude {
     }
 
     if (
-      dudesSettings.value.sounds.enabled &&
+      this.settings.settings.sounds.enabled &&
       frameTag === DudesFrameTags.jump
     ) {
-      soundsLoader.play(Sound.Jump, dudesSettings.value.sounds.volume)
+      this.soundsLoader.play(Sound.Jump, this.settings.settings.sounds.volume)
     }
 
     this.sprite = new DudeSpriteContainer([
@@ -211,7 +232,8 @@ export class Dude {
     }
 
     this.velocity.y =
-      this.velocity.y + (dudesSettings.value.dude.gravity * DELTA_TIME) / ROUND
+      this.velocity.y +
+      (this.settings.settings.dude.gravity * DELTA_TIME) / ROUND
 
     const newPosition = {
       x: this.view.position.x + (this.velocity.x * DELTA_TIME) / ROUND,
@@ -248,7 +270,7 @@ export class Dude {
     const isCollidingLess = this.view.x - (Collider.Width / 2) * this.scale <= 0
 
     if (this.isGrowing) {
-      if (this.scale <= dudesSettings.value.dude.growMaxScale) {
+      if (this.scale <= this.settings.settings.dude.growMaxScale) {
         this.updateScale(0.1)
 
         if (isCollidingMore) {
@@ -263,7 +285,10 @@ export class Dude {
       this.growingTime -= DELTA_TIME
     }
 
-    if (this.growingTime <= 0 && this.scale > dudesSettings.value.dude.scale) {
+    if (
+      this.growingTime <= 0 &&
+      this.scale > this.settings.settings.dude.scale
+    ) {
       this.isGrowing = false
       this.updateScale(-0.01)
     }
@@ -287,7 +312,7 @@ export class Dude {
 
     if (
       this.currentFrameTag !== DudesFrameTags.idle ||
-      (this.isGrowing && this.scale < dudesSettings.value.dude.growMaxScale)
+      (this.isGrowing && this.scale < this.settings.settings.dude.growMaxScale)
     ) {
       this.view.position.x += (this.direction * DELTA_TIME * 60) / ROUND
     }
@@ -299,7 +324,9 @@ export class Dude {
         this.currentOpacityTime -= DELTA_TIME
         this.view.alpha = this.currentOpacityTime / this.maxOpacityTime
       } else {
-        deleteDude(this)
+        for (const onRemove of this.onRemoveCallbacks) {
+          onRemove()
+        }
       }
     }
 
@@ -349,7 +376,8 @@ export class Dude {
   }
 
   async updateSpriteData(spriteData: DudesTypes.SpriteData): Promise<void> {
-    await assetsLoader.load(spriteData)
+    await this.spriteLoader.loadSprite(spriteData)
+    this.textureProvider.unloadTextures(spriteData.name)
     this.config.sprite = spriteData
     this.playAnimation(DudesFrameTags.idle, true)
   }
@@ -358,8 +386,12 @@ export class Dude {
     lifeTime,
     opacityTime
   }: { lifeTime?: number; opacityTime?: number } = {}): void {
-    this.currentLifeTime = lifeTime ?? dudesSettings.value.dude.maxLifeTime
+    this.currentLifeTime = lifeTime ?? this.settings.settings.dude.maxLifeTime
     this.currentOpacityTime = opacityTime ?? this.maxOpacityTime
     this.view.alpha = 1
+  }
+
+  onRemove(callback: () => void) {
+    this.onRemoveCallbacks.push(callback)
   }
 }

@@ -1,7 +1,6 @@
 import { gsap } from 'gsap'
 import { Container, Graphics, Text, TextMetrics } from 'pixi.js'
 
-import { dudesSettings } from '../composables/use-settings.js'
 import {
   ANIMATION_TIME,
   ARROW_HALF_WIDTH,
@@ -9,6 +8,7 @@ import {
   DELTA_TIME
 } from '../constants.js'
 import type { DudesTypes } from '../types.js'
+import type { DudeSettings } from './dude-settings.js'
 
 export class DudeMessageBox {
   readonly view = new Container()
@@ -23,7 +23,10 @@ export class DudeMessageBox {
   private currentShowTime = 0
   private messageQueue: string[] = []
 
-  constructor(private styles?: DudesTypes.IndividualMessageBoxStyles) {
+  constructor(
+    private readonly settings: DudeSettings,
+    private readonly styles?: DudesTypes.IndividualMessageBoxStyles
+  ) {
     this.view.zIndex = 3
     this.view.addChild(this.container)
 
@@ -50,8 +53,8 @@ export class DudeMessageBox {
 
   private mergeStyles(): DudesTypes.MessageBoxStyles {
     return this.styles
-      ? { ...dudesSettings.value.message, ...this.styles }
-      : dudesSettings.value.message
+      ? { ...this.settings.settings.message, ...this.styles }
+      : this.settings.settings.message
   }
 
   update(): void {
@@ -74,7 +77,7 @@ export class DudeMessageBox {
   }
 
   add(message: string): void {
-    if (!message.length || !dudesSettings.value.message.enabled) return
+    if (!message.length || !this.settings.settings.message.enabled) return
     this.messageQueue.push(message.trim())
   }
 
@@ -99,7 +102,7 @@ export class DudeMessageBox {
     }
 
     this.container.alpha = 0
-    this.currentShowTime = dudesSettings.value.message.showTime
+    this.currentShowTime = this.settings.settings.message.showTime
     this.currentAnimationTime = ANIMATION_TIME
   }
 
@@ -109,7 +112,7 @@ export class DudeMessageBox {
       if (message) {
         this.container.removeChildren()
         this.show(message)
-        this.currentShowTime = dudesSettings.value.message.showTime
+        this.currentShowTime = this.settings.settings.message.showTime
         this.currentAnimationTime = ANIMATION_TIME
       }
     } else {

@@ -1,5 +1,5 @@
 export function isBase64(str: string): boolean {
-  return str.startsWith('data:image/png;base64')
+  return str.trim().startsWith('data:image/png;base64')
 }
 
 const option = new Option()
@@ -66,4 +66,12 @@ export function deepMerge<T extends IObject[]>(
 
     return result
   }, {}) as any
+}
+
+export type RecursivePartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? RecursivePartial<U>[]
+    : T[P] extends object
+      ? RecursivePartial<T[P]>
+      : T[P]
 }
