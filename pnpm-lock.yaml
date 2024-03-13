@@ -42,6 +42,19 @@ importers:
         specifier: 3.7.3
         version: 3.7.3(typescript@5.4.2)(vite@5.1.6)
 
+  apps/dudes-demo:
+    dependencies:
+      pixi.js:
+        specifier: 7.4.0
+        version: 7.4.0
+    devDependencies:
+      vite:
+        specifier: 5.1.6
+        version: 5.1.6(@types/node@20.11.26)
+      vite-plugin-dts:
+        specifier: 3.7.3
+        version: 3.7.3(typescript@5.4.2)(vite@5.1.6)
+
   apps/dudes-vue:
     dependencies:
       '@twirapp/dudes':
@@ -69,6 +82,9 @@ importers:
       '@tweakpane/plugin-essentials':
         specifier: 0.2.1
         version: 0.2.1(tweakpane@4.0.3)
+      '@twirapp/dudes-demo':
+        specifier: workspace:*
+        version: link:../dudes-demo
       '@twirapp/dudes-vue':
         specifier: workspace:*
         version: link:../dudes-vue

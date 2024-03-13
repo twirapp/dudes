@@ -36,6 +36,14 @@ export default defineConfig({
           data: {
             title: 'Dudes Overlay'
           }
+        },
+        {
+          name: 'dudes-demo',
+          filename: 'dudes-demo.html',
+          entry: '/src/pages/dudes-demo/index.ts',
+          data: {
+            title: 'Dudes Demo'
+          }
         }
       ]
     })
