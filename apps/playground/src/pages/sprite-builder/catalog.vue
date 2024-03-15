@@ -1,6 +1,15 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import { Separator } from './ui/separator'
-import DudesDemo from '../dudes-demo/dudes-demo.vue'
+// import DudesDemo from '../dudes-demo/dudes-demo.vue'
+
+const iframRef = ref<HTMLIFrameElement>()
+
+onMounted(() => {
+  iframRef.value?.contentWindow?.addEventListener('scroll', (event) => {
+    console.log(event)
+  })
+})
 </script>
 
 <template>
@@ -13,9 +22,11 @@ import DudesDemo from '../dudes-demo/dudes-demo.vue'
     </p>
   </div>
   <separator />
-  <div class="grid grid-rows-2 grid-flow-col gap-4">
-    <div v-for="i in 16" :key="i" class="h-[100px] w-[100px] bg-muted border border-input rounded">
-      <DudesDemo class="h-[100px] w-[100px]" />
-    </div>
-  </div>
+  <iframe
+    ref="iframeRef"
+    src="dudes-demo.html"
+    allow="fullscreen; xr-spatial-tracking;"
+    class="h-[700px] w-full border border-input rounded bg-muted overflow-scroll"
+  />
+  <!-- <dudes-demo /> -->
 </template>
