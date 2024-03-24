@@ -1,0 +1,14 @@
+diff --git a/package.json b/package.json
+index 4c54a606d720b591662a4969fd08861f7ac3565a..2732bea917db4f0c833c691c8476f286d5168426 100644
+--- a/package.json
++++ b/package.json
+@@ -11,7 +11,8 @@
+   "exports": {
+     ".": {
+       "import": "./dist/v-tweakpane.js",
+-      "require": "./dist/v-tweakpane.umd.cjs"
++      "require": "./dist/v-tweakpane.umd.cjs",
++      "types": "./dist/index.d.ts"
+     },
+     "./dist/v-tweakpane.css": {
+       "import": "./dist/v-tweakpane.css",

@@ -20,7 +20,7 @@
     "build": "vite build"
   },
   "devDependencies": {
-    "vite": "5.1.6",
+    "vite": "5.2.6",
     "vite-plugin-dts": "3.7.3"
   },
   "dependencies": {
