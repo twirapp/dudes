@@ -7,7 +7,7 @@ module.exports = {
   safelist: ['dark'],
 
   content: [
-    './src/pages/sprite-builder/**/*.{ts,tsx,vue}'
+    './src/pages/**/*.{ts,tsx,vue}'
   ],
 
   theme: {

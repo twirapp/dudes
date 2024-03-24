@@ -78,7 +78,7 @@ export const useDudesSettings = defineStore('use-dudes', () => {
     }
   })
 
-  const dudesRef = ref<InstanceType<typeof Dudes> | null>()
+  const dudesRef = ref<InstanceType<typeof Dudes> | null>(null)
 
   return {
     spriteLayers,
