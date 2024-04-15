@@ -1,8 +1,8 @@
 import { createMemoryHistory, createRouter } from 'vue-router'
 
 export const Route = {
-  Configurator: '/catalog',
-  Catalog: '/'
+  Configurator: '/',
+  Catalog: '/catalog'
 }
 
 export const router = createRouter({

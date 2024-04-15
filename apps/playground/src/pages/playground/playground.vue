@@ -234,6 +234,9 @@ function onPaneCreated(pane: Pane) {
   dudeFolder.addButton({ title: 'Show message' }).on('click', showMessageDudes)
   dudeFolder.addButton({ title: 'Show emote' }).on('click', spitEmoteDudes)
   dudeFolder.addButton({ title: 'Clear' }).on('click', clearDudes)
+  dudeFolder.addButton({ title: 'Sprite builder (MVP)' }).on('click', () => {
+    window.location.href = '/sprite-builder.html'
+  })
 
   const messageBoxFolder = pane.addFolder({ title: 'Message', expanded: false })
   messageBoxFolder.addBinding(dudesSettings.value.message, 'enabled')
