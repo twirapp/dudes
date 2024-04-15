@@ -1,0 +1,29 @@
+{
+  "name": "@twirapp/dudes-demo",
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/dudes-demo.js",
+      "require": "./dist/dudes-demo.umd.cjs"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "vite": "5.1.6",
+    "vite-plugin-dts": "3.7.3"
+  },
+  "dependencies": {
+    "pixi.js": "7.4.0"
+  }
+}

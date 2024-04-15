@@ -1,5 +1,9 @@
 @import 'v-tweakpane/dist/v-tweakpane.css';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   margin: 0;
   box-sizing: border-box;
