@@ -19,6 +19,7 @@
       "v-tweakpane@0.3.2": "patches/v-tweakpane@0.3.2.patch"
     },
     "onlyBuiltDependencies": [
+      "@parcel/watcher",
       "esbuild",
       "vue-demi"
     ]
