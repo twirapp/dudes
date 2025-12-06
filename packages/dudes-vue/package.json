@@ -16,11 +16,9 @@
     }
   },
   "scripts": {
-    "dev": "pnpm run \"/^watch:.*/\"",
-    "watch:build": "vite build --watch",
-    "watch:types": "pnpm types --watch",
-    "build": "vite build && pnpm types",
-    "types": "vue-tsc --declaration --emitDeclarationOnly"
+    "dev": "vite build --watch",
+    "build": "pnpm type-check && vite build",
+    "type-check": "vue-tsc --build"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "6.0.2",

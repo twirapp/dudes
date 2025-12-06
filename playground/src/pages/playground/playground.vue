@@ -337,8 +337,15 @@ function onPaneCreated(pane: Pane) {
   </Teleport>
   <iframe
     ref="dudesIframeRef"
-    class="w-full h-full"
+    class="iframe-overlay"
     src="overlay.html"
     frameborder="false"
   />
 </template>
+
+<style scoped>
+.iframe-overlay {
+  height: 100%;
+  width: 100%;
+}
+</style>

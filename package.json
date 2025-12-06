@@ -4,17 +4,23 @@
   "private": true,
   "packageManager": "pnpm@10.24.0",
   "scripts": {
-    "dev": "turbo dev --filter=./apps/*",
-    "build": "turbo build --filter=./apps/*",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "type-check": "turbo type-check",
     "changeset": "changeset"
   },
   "devDependencies": {
     "@changesets/cli": "2.29.8",
+    "@types/node": "22.19.1",
     "turbo": "2.6.3"
   },
   "pnpm": {
     "patchedDependencies": {
       "v-tweakpane@0.3.2": "patches/v-tweakpane@0.3.2.patch"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "vue-demi"
+    ]
   }
 }

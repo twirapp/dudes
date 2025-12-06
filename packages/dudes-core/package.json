@@ -17,7 +17,8 @@
   },
   "scripts": {
     "dev": "vite build --watch",
-    "build": "vite build"
+    "build": "pnpm type-check && vite build",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "vite": "7.2.6",

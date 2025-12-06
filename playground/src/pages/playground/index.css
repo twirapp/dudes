@@ -1,10 +1,6 @@
 @import 'v-tweakpane/dist/v-tweakpane.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-* {
+*, ::before, ::after {
   margin: 0;
   box-sizing: border-box;
 }
@@ -35,12 +31,12 @@
 
 body {
   overflow: hidden;
-  background: #333;
+  background-color: #333;
   color: #fff;
 }
 
 #app {
-  height: 100vh;
+  height: 100dvh;
 }
 
 main {
