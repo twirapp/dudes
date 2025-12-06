@@ -113,7 +113,7 @@ function onPaneCreated(pane: Pane) {
   bodySpriteOptions.unshift(hiddenOption)
   dudeFolder.addBinding(spriteLayers.value, 'body', {
     label: 'Body',
-    options: bodySpriteOptions
+    options: bodySpriteOptions.slice(1)
   })
 
   dudeFolder.addBinding(spriteColors.value, 'bodyColor', {
@@ -224,7 +224,6 @@ function onPaneCreated(pane: Pane) {
   })
 
   dudeFolder.addBlade({ view: 'separator' })
-
   dudeFolder.addButton({ title: 'Spawn' }).on('click', spawnDude)
   dudeFolder.addButton({ title: 'Jump' }).on('click', jumpDudes)
   dudeFolder.addButton({ title: 'Grow' }).on('click', growDudes)
@@ -234,8 +233,9 @@ function onPaneCreated(pane: Pane) {
   dudeFolder.addButton({ title: 'Show message' }).on('click', showMessageDudes)
   dudeFolder.addButton({ title: 'Show emote' }).on('click', spitEmoteDudes)
   dudeFolder.addButton({ title: 'Clear' }).on('click', clearDudes)
-  dudeFolder.addButton({ title: 'Sprite builder (MVP)' }).on('click', () => {
-    window.location.href = '/dudes/sprite-builder.html'
+  dudeFolder.addBlade({ view: 'separator' })
+  dudeFolder.addButton({ title: 'Open configurator' }).on('click', () => {
+    window.open('configurator.html', '_blank')
   })
 
   const messageBoxFolder = pane.addFolder({ title: 'Message', expanded: false })

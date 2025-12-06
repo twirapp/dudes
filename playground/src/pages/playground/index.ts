@@ -3,7 +3,7 @@ import { createApp } from 'vue'
 
 import App from './playground.vue'
 
-import './index.css'
+import './index.scss'
 
 createApp(App).use(createPinia()).mount('#app')
 

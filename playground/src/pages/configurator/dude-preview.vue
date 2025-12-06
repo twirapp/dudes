@@ -6,9 +6,9 @@
       class="frame"
       :style="{
         '--frame-url': `url(${frameUrl(frame?.src)})`,
-        '--frame-x': '0px',
-        '--frame-y': '0px',
-        '--frame-color': frame?.color
+        '--frame-x': frameOffsetX,
+        '--frame-y': frameOffsetY,
+        '--frame-color': frame?.color ?? '#fff'
       }"
     >
       <div class="mask" />
@@ -19,14 +19,16 @@
 <script setup lang="ts">
 import { entries } from '@zero-dependency/utils'
 import { assetsLoaderOptions, dudesLayers } from '../overlay/constants.js'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { DudesFrameTags, frameAnimations } from './constants.js'
 
 interface SpriteData {
-    src: string
-    color?: string
-  }
+  src: string
+  color?: string
+}
 
-interface Sprite {
-  body?: SpriteData,
+export interface Sprite {
+  body: SpriteData,
   eyes?: SpriteData,
   mouth?: SpriteData,
   hat?: SpriteData,
@@ -34,18 +36,20 @@ interface Sprite {
 }
 
 interface DudePreviewProps {
+  size: number
   sprite?: Sprite
+  animation?: DudesFrameTags
 }
 
 const props = withDefaults(defineProps<DudePreviewProps>(), {
   sprite: () => ({
     body: {
       src: dudesLayers.body[0].src,
-      color: '#2e62ff'
+      color: '#e6ac0c'
     },
     eyes: {
       src: dudesLayers.eyes[0].src,
-      color: 'tomato'
+      color: '#fff'
     },
     mouth: {
       src: dudesLayers.mouth[1].src,
@@ -53,36 +57,95 @@ const props = withDefaults(defineProps<DudePreviewProps>(), {
     },
     hat: {
       src: dudesLayers.hat[0].src,
-      color: 'darkblue'
+      color: '#fff'
     },
     cosmetics: {
       src: dudesLayers.cosmetics[2].src,
-      color: 'darkblue'
+      color: '#fff'
     }
-  })
+  }),
+  animation: DudesFrameTags.Idle,
 })
+
+const currentFrameIndex = ref(0)
+
+let animationFrameId: number | null = null
+let lastFrameTime = 0
 
 function frameUrl(url?: string) {
   if (!url) return
   return assetsLoaderOptions.basePath + url
 }
+
+const previewSize = computed(() => {
+  return `${props.size}px`
+})
+
+const frameWidth = 32
+const frameBottomOffset = 7
+
+const frameOffsetY = computed(() => {
+  return `${(props.size * frameBottomOffset / frameWidth)}px`
+})
+
+const frameOffsetX = computed(() => {
+  const scale = props.size / frameWidth
+  return `${-currentFrameIndex.value * frameWidth * scale}px`
+})
+
+const currentAnimation = computed(() => {
+  return frameAnimations
+    .find(anim => anim.name === props.animation) ?? frameAnimations[0]
+})
+
+function animate(timestamp: number) {
+  const fpsInterval = 1000 / 4
+  const elapsed = timestamp - lastFrameTime
+
+  if (elapsed > fpsInterval) {
+    lastFrameTime = timestamp - (elapsed % fpsInterval)
+
+    const anim = currentAnimation.value
+    const frameCount = anim.to - anim.from + 1
+
+    if (frameCount > 1) {
+      const localIndex = (currentFrameIndex.value - anim.from + 1) % frameCount
+      currentFrameIndex.value = anim.from + localIndex
+    } else {
+      currentFrameIndex.value = anim.from
+    }
+  }
+
+  animationFrameId = requestAnimationFrame(animate)
+}
+
+onMounted(() => {
+  currentFrameIndex.value = currentAnimation.value.from
+  lastFrameTime = performance.now()
+  animationFrameId = requestAnimationFrame(animate)
+})
+
+onUnmounted(() => {
+  if (animationFrameId !== null) {
+    cancelAnimationFrame(animationFrameId)
+  }
+})
 </script>
 
 <style scoped lang="scss">
 .dude-preview {
-  width: 128px;
-  height: 128px;
-  border: 2px solid #000;
+  width: v-bind(previewSize);
+  height: v-bind(previewSize);
+  outline: 2px solid #e3e3e3;
   border-radius: 8px;
   position: relative;
-  background-color: #333;
+  background-color: #444;
 
-  /* by G00D4Y */
   .frame {
     position: absolute;
     left: 0;
-    width: 128px;
-    height: 128px;
+    width: inherit;
+    height: inherit;
     background-image: var(--frame-url);
     background-size: cover;
     background-repeat: no-repeat;
@@ -90,14 +153,15 @@ function frameUrl(url?: string) {
     image-rendering: pixelated;
 
     .mask {
+      width: inherit;
+      height: inherit;
       mask-mode: alpha;
-      width: 100%;
-      height: 100%;
-      background-color: var(--frame-color);
-      mix-blend-mode: multiply;
-      mask-image: var(--frame-url);
-      background-size: cover;
       mask-size: cover;
+      mask-image: var(--frame-url);
+      mask-position: var(--frame-x) var(--frame-y);
+      mix-blend-mode: multiply;
+      background-color: var(--frame-color);
+      background-size: cover;
     }
   }
 }
