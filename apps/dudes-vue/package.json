@@ -23,15 +23,15 @@
     "types": "vue-tsc --declaration --emitDeclarationOnly"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "5.0.4",
-    "vite": "5.2.6",
-    "vue-tsc": "2.0.7"
+    "@vitejs/plugin-vue": "6.0.2",
+    "vite": "7.2.6",
+    "vue-tsc": "3.1.6"
   },
   "peerDependencies": {
-    "vue": ">=3.0.0"
+    "vue": ">=3.5.0"
   },
   "dependencies": {
     "@twirapp/dudes": "workspace:*",
-    "vue": "3.4.21"
+    "vue": "3.5.25"
   }
 }

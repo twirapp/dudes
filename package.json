@@ -2,16 +2,15 @@
   "name": "dudes-workspace",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@10.24.0",
   "scripts": {
     "dev": "turbo dev --filter=./apps/*",
     "build": "turbo build --filter=./apps/*",
-    "format": "prettier --write \"**/*.{js,ts,json}\"",
     "changeset": "changeset"
   },
   "devDependencies": {
-    "@changesets/cli": "2.27.1",
-    "@crashmax/prettier-config": "5.0.2",
-    "turbo": "1.13.0"
+    "@changesets/cli": "2.29.8",
+    "turbo": "2.6.3"
   },
   "pnpm": {
     "patchedDependencies": {

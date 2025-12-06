@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, h } from 'vue'
 import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import * as z from 'zod'
+import { toTypedSchema } from '@vee-validate/valibot'
+import { object, pipe, string, nonEmpty } from 'valibot'
 
 import { Check, ChevronsUpDown } from 'lucide-vue-next'
 import { cn } from '@/utils'
@@ -73,21 +73,24 @@ for (const layer of ['eyes', 'mouth', 'hat', 'cosmetics']) {
   })
 }
 
-const formSchema = toTypedSchema(z.object({
-  body: z.string({ required_error: 'Please select a body.' }),
-  bodyColor: z.string(),
+const formSchema = toTypedSchema(object({
+  body: pipe(
+    string(),
+    nonEmpty("Please select a body.")
+  ),
+  bodyColor: string(),
 
-  eyes: z.string(),
-  eyesColor: z.string(),
+  eyes: string(),
+  eyesColor: string(),
 
-  mouth: z.string(),
-  mouthColor: z.string(),
+  mouth: string(),
+  mouthColor: string(),
 
-  hat: z.string(),
-  hatColor: z.string(),
+  hat: string(),
+  hatColor: string(),
 
-  cosmetics: z.string(),
-  cosmeticsColor: z.string()
+  cosmetics: string(),
+  cosmeticsColor: string()
 }))
 
 const initialFormValues = computed(() => {
