@@ -203,6 +203,26 @@ export class Dude {
   update(): void {
     const now = performance.now()
 
+    this.updateLandAnimation(now)
+    this.updateLeavingState()
+    this.updateIdleRunAnimation(now)
+    this.updateGravity()
+
+    const currentPosition = this.getCurrentPosition()
+    this.handleGroundCollision(currentPosition, now)
+    this.view.position.set(currentPosition.x, currentPosition.y)
+
+    this.handleFalling()
+    this.handleGrowth()
+    this.handleShrinking()
+    this.handleScreenExit(currentPosition)
+    this.handleWallCollision()
+    this.updateMovement()
+    this.updateLifeCycle()
+    this.updateChildComponents()
+  }
+
+  private updateLandAnimation(now: number): void {
     if (
       this.landAnimationTime &&
       now - this.landAnimationTime > this.maxLandAnimationTime
@@ -210,11 +230,15 @@ export class Dude {
       this.playAnimation(DudesFrameTags.idle)
       this.landAnimationTime = null
     }
+  }
 
+  private updateLeavingState(): void {
     if (this.isLeaving) {
       this.leave()
     }
+  }
 
+  private updateIdleRunAnimation(now: number): void {
     if (
       this.idleAnimationTime &&
       this.idleAnimationMaxTime &&
@@ -230,21 +254,27 @@ export class Dude {
 
       this.updateIdleAnimationTime({ time: now })
     }
+  }
 
+  private updateGravity(): void {
     this.velocity.y =
       this.velocity.y +
       (this.settings.settings.dude.gravity * DELTA_TIME) / ROUND
+  }
 
-    const newPosition = {
+  private getCurrentPosition(): IPointData {
+    return {
       x: this.view.position.x + (this.velocity.x * DELTA_TIME) / ROUND,
       y: this.view.position.y + (this.velocity.y * DELTA_TIME) / ROUND
     }
+  }
 
-    if (
+  private handleGroundCollision(newPosition: IPointData, now: number): void {
+    const groundY =
       newPosition.y +
-        (Collider.Y + Collider.Height - SPRITE_SIZE / 2) * this.scale >
-      window.innerHeight
-    ) {
+      (Collider.Y + Collider.Height - SPRITE_SIZE / 2) * this.scale
+
+    if (groundY > window.innerHeight) {
       this.velocity.y = 0
       this.velocity.x = 0
 
@@ -257,34 +287,39 @@ export class Dude {
         this.landAnimationTime = now
       }
     }
+  }
 
-    this.view.position.set(newPosition.x, newPosition.y)
-
+  private handleFalling(): void {
     if (this.velocity.y > 0) {
       this.playAnimation(DudesFrameTags.fall)
     }
+  }
 
-    const width = window.innerWidth
-    const isCollidingMore =
-      this.view.x + (Collider.Width / 2) * this.scale >= width
-    const isCollidingLess = this.view.x - (Collider.Width / 2) * this.scale <= 0
+  private handleGrowth(): void {
+    if (!this.isGrowing) return
 
-    if (this.isGrowing) {
-      if (this.scale <= this.settings.settings.dude.growMaxScale) {
-        this.updateScale(0.1)
+    if (this.scale <= this.settings.settings.dude.growMaxScale) {
+      this.updateScale(0.1)
 
-        if (isCollidingMore) {
-          this.updateDirection(Direction.Right)
-        }
+      const width = window.innerWidth
+      const leftBound = this.view.x - (Collider.Width / 2) * this.scale
+      const rightBound = this.view.x + (Collider.Width / 2) * this.scale
 
-        if (isCollidingLess) {
-          this.updateDirection(Direction.Left)
-        }
+      if (rightBound >= width) {
+        this.view.x = width - (Collider.Width / 2) * this.scale
+        this.updateDirection(Direction.Left)
       }
 
-      this.growingTime -= DELTA_TIME
+      if (leftBound <= 0) {
+        this.view.x = (Collider.Width / 2) * this.scale
+        this.updateDirection(Direction.Right)
+      }
     }
 
+    this.growingTime -= DELTA_TIME
+  }
+
+  private handleShrinking(): void {
     if (
       this.growingTime <= 0 &&
       this.scale > this.settings.settings.dude.scale
@@ -292,12 +327,23 @@ export class Dude {
       this.isGrowing = false
       this.updateScale(-0.01)
     }
+  }
 
+  private handleScreenExit(newPosition: IPointData): void {
+    const width = window.innerWidth
     if (newPosition.x < 0 || newPosition.x > width) {
       this.currentLifeTime = 0
     }
+  }
 
-    if (isCollidingMore || isCollidingLess) {
+  private handleWallCollision(): void {
+    const width = window.innerWidth
+    const isCollidingRight =
+      this.view.x + (Collider.Width / 2) * this.scale >= width
+    const isCollidingLeft =
+      this.view.x - (Collider.Width / 2) * this.scale <= 0
+
+    if (isCollidingRight || isCollidingLeft) {
       if (!this.isLeaving) {
         this.direction = -this.direction
       }
@@ -309,14 +355,18 @@ export class Dude {
         this.updateScale()
       }
     }
+  }
 
+  private updateMovement(): void {
     if (
       this.currentFrameTag !== DudesFrameTags.idle ||
       (this.isGrowing && this.scale < this.settings.settings.dude.growMaxScale)
     ) {
       this.view.position.x += (this.direction * DELTA_TIME * 60) / ROUND
     }
+  }
 
+  private updateLifeCycle(): void {
     if (this.currentLifeTime > 0) {
       this.currentLifeTime -= DELTA_TIME
     } else {
@@ -329,7 +379,9 @@ export class Dude {
         }
       }
     }
+  }
 
+  private updateChildComponents(): void {
     this.sprite?.update((DELTA_TIME / ROUND) * 60)
     this.emoteSpitter.update()
 
