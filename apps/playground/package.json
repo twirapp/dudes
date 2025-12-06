@@ -11,8 +11,8 @@
   "dependencies": {
     "@tweakpane/core": "2.0.5",
     "@tweakpane/plugin-essentials": "0.2.1",
-    "@twirapp/dudes-demo": "workspace:*",
-    "@twirapp/dudes-vue": "workspace:*",
+    "@twirapp/dudes": "workspace:^",
+    "@twirapp/dudes-vue": "workspace:^",
     "@vee-validate/valibot": "^4.15.1",
     "@vueuse/core": "14.1.0",
     "@zero-dependency/utils": "1.7.8",

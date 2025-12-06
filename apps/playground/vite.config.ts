@@ -22,14 +22,6 @@ export default defineConfig({
           }
         },
         {
-          name: 'sprite-builder',
-          filename: 'sprite-builder.html',
-          entry: '/src/pages/sprite-builder/index.ts',
-          data: {
-            title: 'Dudes Sprite Builder'
-          }
-        },
-        {
           name: 'overlay',
           filename: 'overlay.html',
           entry: '/src/pages/overlay/index.ts',
@@ -38,11 +30,11 @@ export default defineConfig({
           }
         },
         {
-          name: 'dudes-demo',
-          filename: 'dudes-demo.html',
-          entry: '/src/pages/dudes-demo/index.ts',
+          name: 'configurator',
+          filename: 'configurator.html',
+          entry: '/src/pages/configurator/index.ts',
           data: {
-            title: 'Dudes Demo'
+            title: 'Dudes Configurator'
           }
         }
       ]

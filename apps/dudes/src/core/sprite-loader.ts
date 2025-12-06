@@ -35,7 +35,7 @@ export class SpriteLoader {
   }
 
   async init(): Promise<void> {
-    await Assets.init({ ...this.loaderOptions })
+    await Assets.init(this.loaderOptions)
   }
 
   async unloadSprite(spriteName: string): Promise<void> {
