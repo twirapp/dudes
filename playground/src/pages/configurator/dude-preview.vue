@@ -8,7 +8,7 @@
         '--frame-url': `url(${frameUrl(frame?.src)})`,
         '--frame-x': frameOffsetX,
         '--frame-y': frameOffsetY,
-        '--frame-color': frame?.color ?? '#fff'
+        '--frame-color': frame?.color ?? '#fff',
       }"
     >
       <div class="mask" />
@@ -17,11 +17,11 @@
 </template>
 
 <script setup lang="ts">
-import { entries } from '@zero-dependency/utils'
-import { assetsLoaderOptions, dudesLayers } from '../overlay/constants.js'
-import { computed, ref, onMounted, onUnmounted } from 'vue'
-import { frameAnimations } from './constants.js'
 import { DudesFrameTag } from '@twirapp/dudes-vue'
+import { entries } from '@zero-dependency/utils'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { assetsLoaderOptions, dudesLayers } from '../overlay/constants.js'
+import { frameAnimations } from './constants.js'
 
 interface SpriteData {
   src: string
@@ -29,10 +29,10 @@ interface SpriteData {
 }
 
 export interface Sprite {
-  body: SpriteData,
-  eyes?: SpriteData,
-  mouth?: SpriteData,
-  hat?: SpriteData,
+  body: SpriteData
+  eyes?: SpriteData
+  mouth?: SpriteData
+  hat?: SpriteData
   cosmetics?: SpriteData
 }
 
@@ -47,24 +47,24 @@ const props = withDefaults(defineProps<DudePreviewProps>(), {
   sprite: () => ({
     body: {
       src: dudesLayers.body[0].src,
-      color: '#e6ac0c'
+      color: '#e6ac0c',
     },
     eyes: {
       src: dudesLayers.eyes[0].src,
-      color: '#fff'
+      color: '#fff',
     },
     mouth: {
       src: dudesLayers.mouth[1].src,
-      color: '#fff'
+      color: '#fff',
     },
     hat: {
       src: dudesLayers.hat[0].src,
-      color: '#fff'
+      color: '#fff',
     },
     cosmetics: {
       src: dudesLayers.cosmetics[2].src,
-      color: '#fff'
-    }
+      color: '#fff',
+    },
   }),
   fps: 4,
   animation: DudesFrameTag.Idle,

@@ -5,7 +5,7 @@ declare global {
 }
 
 export const Sound = {
-  Jump: 'Jump'
+  Jump: 'Jump',
 } as const
 export type SoundType = keyof typeof Sound
 

@@ -10,7 +10,7 @@ import type {
   AssetsLoaderOptions,
   DudePartialSettings,
   DudesTypes,
-  SoundAsset
+  SoundAsset,
 } from './types.js'
 
 interface DudesParams {
@@ -54,7 +54,7 @@ export class Dudes {
       height: window.innerHeight,
       backgroundAlpha: 0,
       view: canvas,
-      antialias: true
+      antialias: true,
     })
 
     window.addEventListener('resize', this.onResize)
@@ -103,7 +103,7 @@ export class Dudes {
       this.textureProvider,
       this.spriteLoader,
       this.soundsLoader,
-      this.settings
+      this.settings,
     )
     dude.onRemove(() => this.removeDude(config.id))
     await dude.init()
@@ -124,7 +124,7 @@ export class Dudes {
     // cleanup unused sprites
     const spriteName = dude.config.sprite.name
     const isSpriteUsed = Array.from(this.dudesMap.values()).some(
-      (v) => v.config.sprite.name === spriteName
+      (v) => v.config.sprite.name === spriteName,
     )
 
     if (isSpriteUsed) return

@@ -1,10 +1,10 @@
-import Dudes from '@twirapp/dudes-vue'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { DudesTypes } from '@twirapp/dudes-vue/types'
-
 import { randomRgbColor } from '@/utils.js'
 import { dudesLayers } from './constants.js'
+
+import type Dudes from '@twirapp/dudes-vue'
+import type { DudesTypes } from '@twirapp/dudes-vue/types'
 import type { SpriteColors, SpriteLayers } from './types.js'
 
 export const useDudesSettings = defineStore('use-dudes', () => {
@@ -13,7 +13,7 @@ export const useDudesSettings = defineStore('use-dudes', () => {
     eyes: dudesLayers.eyes[0].src,
     mouth: '',
     hat: '',
-    cosmetics: ''
+    cosmetics: '',
   })
 
   const spriteColors = ref<SpriteColors>({
@@ -21,7 +21,7 @@ export const useDudesSettings = defineStore('use-dudes', () => {
     eyesColor: '#FFF',
     mouthColor: '#FFF',
     hatColor: '#FFF',
-    cosmeticsColor: '#FFF'
+    cosmeticsColor: '#FFF',
   })
 
   const dudesSettings = ref<{
@@ -37,11 +37,11 @@ export const useDudesSettings = defineStore('use-dudes', () => {
       growTime: 1000 * 2,
       growMaxScale: 20,
       gravity: 400,
-      scale: 4
+      scale: 4,
     },
     sounds: {
       enabled: true,
-      volume: 0.01
+      volume: 0.01,
     },
     message: {
       enabled: true,
@@ -51,7 +51,7 @@ export const useDudesSettings = defineStore('use-dudes', () => {
       fontSize: 14,
       padding: 5,
       showTime: 5 * 1000,
-      fill: '#333333'
+      fill: '#333333',
     },
     name: {
       enabled: true,
@@ -71,11 +71,11 @@ export const useDudesSettings = defineStore('use-dudes', () => {
       dropShadowAngle: 0,
       dropShadowBlur: 0.1,
       dropShadowDistance: 10,
-      dropShadowColor: '#3AC7D9'
+      dropShadowColor: '#3AC7D9',
     },
     emotes: {
-      enabled: true
-    }
+      enabled: true,
+    },
   })
 
   const dudesRef = ref<InstanceType<typeof Dudes> | null>(null)
@@ -84,6 +84,6 @@ export const useDudesSettings = defineStore('use-dudes', () => {
     spriteLayers,
     spriteColors,
     dudesSettings,
-    dudesRef
+    dudesRef,
   }
 })

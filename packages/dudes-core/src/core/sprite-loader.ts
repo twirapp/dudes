@@ -1,14 +1,13 @@
 import { Assets, BaseTexture, Spritesheet } from 'pixi.js'
+import { isBase64 } from '../helpers.js'
+
+import { DudesFrameTag } from './texture-provider.js'
 import type {
   AssetInitOptions,
   ISpritesheetData,
-  ISpritesheetFrameData
+  ISpritesheetFrameData,
 } from 'pixi.js'
-
-import { isBase64 } from '../helpers.js'
-import { DudesFrameTag } from './texture-provider.js'
 import type { DudesTypes } from '../types.js'
-import type { TextureProvider } from './texture-provider.js'
 
 export interface SpriteFrameData extends ISpritesheetFrameData {
   duration: number
@@ -29,7 +28,7 @@ export class SpriteLoader {
 
   getSprite(
     spriteName: string,
-    layerType: string
+    layerType: string,
   ): Spritesheet<SpriteData> | undefined {
     return this.sprites.get(spriteName)?.get(layerType)
   }
@@ -58,7 +57,7 @@ export class SpriteLoader {
   }
 
   private async loadSpriteData(
-    spriteData: DudesTypes.SpriteLayer
+    spriteData: DudesTypes.SpriteLayer,
   ): Promise<Spritesheet<SpriteData>> {
     const frames = Object.fromEntries(
       Array.from({ length: 9 }, (_, index) => {
@@ -68,11 +67,11 @@ export class SpriteLoader {
           trimmed: false,
           spriteSourceSize: { x: 0, y: 0, w: 32, h: 32 },
           sourceSize: { w: 32, h: 32 },
-          duration: index < 3 ? 300 : 100
+          duration: index < 3 ? 300 : 100,
         }
 
         return [`${spriteData.layer}_${index}`, frame]
-      })
+      }),
     )
 
     const spritesheet: SpriteData = {
@@ -86,36 +85,37 @@ export class SpriteLoader {
             name: DudesFrameTag.Idle,
             from: 0,
             to: 2,
-            direction: 'forward'
+            direction: 'forward',
           },
           {
             name: DudesFrameTag.Jump,
             from: 3,
             to: 3,
-            direction: 'forward'
+            direction: 'forward',
           },
           {
             name: DudesFrameTag.Fall,
             from: 4,
             to: 4,
-            direction: 'forward'
+            direction: 'forward',
           },
           {
             name: DudesFrameTag.Land,
             from: 5,
             to: 5,
-            direction: 'forward'
+            direction: 'forward',
           },
           {
             name: DudesFrameTag.Walk,
             from: 6,
             to: 8,
-            direction: 'forward'
-          }
+            direction: 'forward',
+          },
         ],
         layers: [
-          { name: spriteData.layer, opacity: 255, blendMode: 'normal' }]
-      }
+          { name: spriteData.layer, opacity: 255, blendMode: 'normal' },
+        ],
+      },
     }
 
     if (isBase64(spriteData.src)) {

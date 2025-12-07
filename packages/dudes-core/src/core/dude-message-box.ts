@@ -5,7 +5,7 @@ import {
   ANIMATION_TIME,
   ARROW_HALF_WIDTH,
   ARROW_HEIGHT,
-  DELTA_TIME
+  DELTA_TIME,
 } from '../constants.js'
 import type { DudesTypes } from '../types.js'
 import type { DudeSettings } from './dude-settings.js'
@@ -25,19 +25,19 @@ export class DudeMessageBox {
 
   constructor(
     private readonly settings: DudeSettings,
-    private readonly styles?: DudesTypes.IndividualMessageBoxStyles
+    private readonly styles?: DudesTypes.IndividualMessageBoxStyles,
   ) {
     this.view.zIndex = 3
     this.view.addChild(this.container)
 
     const timeline = gsap.timeline({
-      paused: true
+      paused: true,
     })
 
     timeline.to(this.container, {
       duration: 0.5,
       alpha: 1,
-      ease: 'sine.in'
+      ease: 'sine.in',
     })
 
     timeline.to(this.container, {
@@ -45,7 +45,7 @@ export class DudeMessageBox {
       y: -20,
       repeat: -1,
       yoyo: true,
-      ease: 'sine.inOut'
+      ease: 'sine.inOut',
     })
 
     this.showAnimation = timeline
@@ -64,8 +64,8 @@ export class DudeMessageBox {
 
     if (this.currentShowTime <= 0) {
       if (
-        this.container.children.length > 0 &&
-        !this.hideAnimation?.isActive()
+        this.container.children.length > 0
+        && !this.hideAnimation?.isActive()
       ) {
         this.showNextMessage()
       }
@@ -86,9 +86,9 @@ export class DudeMessageBox {
 
     const metrics = TextMetrics.measureText(text, this.text.style)
 
-    this.text.text =
-      metrics.lines.length > 4
-        ? metrics.lines.slice(0, 4).join(' ').slice(0, -3) + '...'
+    this.text.text
+      = metrics.lines.length > 4
+        ? `${metrics.lines.slice(0, 4).join(' ').slice(0, -3)}...`
         : text
   }
 
@@ -124,7 +124,7 @@ export class DudeMessageBox {
           this.hideAnimation?.kill()
           this.showAnimation.pause()
           this.container.removeChildren()
-        }
+        },
       })
     }
   }
@@ -137,7 +137,7 @@ export class DudeMessageBox {
       align: 'left',
       breakWords: true,
       wordWrap: true,
-      wordWrapWidth: 200
+      wordWrapWidth: 200,
     })
 
     this.text.anchor.set(0.5, 1)
@@ -166,7 +166,7 @@ export class DudeMessageBox {
       this.text.y - styles.padding - this.text.height * this.text.anchor.y,
       this.text.width + paddingRight * 2,
       this.text.height + styles.padding * 2,
-      styles.borderRadius
+      styles.borderRadius,
     )
     this.box.endFill()
 

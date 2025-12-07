@@ -1,19 +1,28 @@
+<template>
+  <dudes-overlay
+    ref="dudesRef"
+    :settings="dudesSettings"
+    :assets-loader-options="assetsLoaderOptions"
+    :sounds="dudesSounds"
+  />
+</template>
+
 <script setup lang="ts">
 import DudesOverlay, { DudesFrameTag, DudesLayer } from '@twirapp/dudes-vue'
-import { onMounted } from 'vue'
-import { createDudeSprite } from './utils.js'
-import { assetsLoaderOptions, dudesSounds } from './constants.js'
-import { useDudesSettings } from './use-dudes-settings.js';
 import { storeToRefs } from 'pinia'
+import { onMounted } from 'vue'
+import { assetsLoaderOptions, dudesSounds } from './constants.js'
+import { useDudesSettings } from './use-dudes-settings.js'
+import { createDudeSprite } from './utils.js'
 
-import type { Dude } from '@twirapp/dudes-vue/types';
+import type { Dude } from '@twirapp/dudes-vue/types'
 import type { OverlayMessageEvent } from './types.js'
 
 const {
   dudesRef,
   spriteLayers,
   spriteColors,
-  dudesSettings
+  dudesSettings,
 } = storeToRefs(useDudesSettings())
 
 onMounted(async () => {
@@ -33,7 +42,7 @@ async function onMessage(event: MessageEvent<string>) {
     await dudesRef.value.dudes.createDude({
       id: data.id,
       name: data.name,
-      sprite: createDudeSprite(spriteLayers.value)
+      sprite: createDudeSprite(spriteLayers.value),
     })
 
     updateDudesColors()
@@ -88,7 +97,7 @@ async function onMessage(event: MessageEvent<string>) {
     traverseDudes((dude) => {
       dude.updateIdleAnimationTime({
         time: Number.MAX_SAFE_INTEGER,
-        maxTime: Number.MAX_SAFE_INTEGER
+        maxTime: Number.MAX_SAFE_INTEGER,
       })
       dude.playAnimation(DudesFrameTag.Idle)
     })
@@ -123,12 +132,3 @@ function updateDudesColors(): void {
   })
 }
 </script>
-
-<template>
-  <dudes-overlay
-    ref="dudesRef"
-    :settings="dudesSettings"
-    :assets-loader-options="assetsLoaderOptions"
-    :sounds="dudesSounds"
-  />
-</template>

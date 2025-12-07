@@ -1,13 +1,12 @@
 import { Container } from 'pixi.js'
-import type { IPointData } from 'pixi.js'
-
 import {
   Collider,
   DELTA_TIME,
   Direction,
   ROUND,
-  SPRITE_SIZE
+  SPRITE_SIZE,
 } from '../constants.js'
+
 import { isValidColor } from '../helpers.js'
 import { DudeEmoteSpitter } from './dude-emote-spitter.js'
 import { DudeMessageBox } from './dude-message-box.js'
@@ -18,12 +17,15 @@ import {
   DudesFrameTag,
   DudesLayer,
   DudesLayerValues,
-  TextureProvider
 } from './texture-provider.js'
+import type { IPointData } from 'pixi.js'
 import type { DudesTypes } from '../types.js'
 import type { DudeSettings } from './dude-settings.js'
 import type { SoundsLoader } from './sounds-loader.js'
 import type { SpriteLoader } from './sprite-loader.js'
+import type {
+  TextureProvider,
+} from './texture-provider.js'
 
 export class Dude {
   readonly view = new Container()
@@ -39,7 +41,7 @@ export class Dude {
 
   private velocity: IPointData = {
     x: 0,
-    y: 0
+    y: 0,
   }
 
   private landAnimationTime: number | null = null
@@ -64,7 +66,7 @@ export class Dude {
     private readonly textureProvider: TextureProvider,
     private readonly spriteLoader: SpriteLoader,
     private readonly soundsLoader: SoundsLoader,
-    private readonly settings: DudeSettings
+    private readonly settings: DudeSettings,
   ) {
     this.jump = this.jump.bind(this)
   }
@@ -79,24 +81,24 @@ export class Dude {
       eyes: '#FFF',
       mouth: '#FFF',
       hat: '#FFF',
-      cosmetics: '#FFF'
+      cosmetics: '#FFF',
     }
     this.currentLifeTime = this.settings.settings.dude.maxLifeTime
     this.scale = this.settings.settings.dude.scale
 
     this.view.y = -(Collider.Y + Collider.Height - SPRITE_SIZE / 2) * this.scale
-    this.view.x =
-      Math.random() * (window.innerWidth - SPRITE_SIZE * this.scale) +
-      (SPRITE_SIZE / 2) * this.scale
+    this.view.x
+      = Math.random() * (window.innerWidth - SPRITE_SIZE * this.scale)
+        + (SPRITE_SIZE / 2) * this.scale
 
     this.nameBox = new DudeNameBox(
       this.config.name,
       this.settings,
-      this.config.styles?.name
+      this.config.styles?.name,
     )
     this.messageBox = new DudeMessageBox(
       this.settings,
-      this.config.styles?.message
+      this.config.styles?.message,
     )
     this.emoteSpitter = new DudeEmoteSpitter()
 
@@ -131,7 +133,7 @@ export class Dude {
       this.isLeaving = true
       this.updateLifeTime({
         lifeTime: Number.MAX_SAFE_INTEGER,
-        opacityTime: ROUND
+        opacityTime: ROUND,
       })
     }
   }
@@ -157,11 +159,11 @@ export class Dude {
 
   async playAnimation(
     frameTag: DudesFrameTag,
-    force = false
+    force = false,
   ): Promise<void> {
     const dudeSprite = this.textureProvider.getTexture(
       this.config.sprite.name,
-      frameTag
+      frameTag,
     )
     if (!dudeSprite) return
 
@@ -173,8 +175,8 @@ export class Dude {
     }
 
     if (
-      this.settings.settings.sounds.enabled &&
-      frameTag === DudesFrameTag.Jump
+      this.settings.settings.sounds.enabled
+      && frameTag === DudesFrameTag.Jump
     ) {
       this.soundsLoader.play(Sound.Jump, this.settings.settings.sounds.volume)
     }
@@ -184,7 +186,7 @@ export class Dude {
       dudeSprite[DudesLayer.Eyes],
       dudeSprite[DudesLayer.Mouth],
       dudeSprite[DudesLayer.Hat],
-      dudeSprite[DudesLayer.Cosmetics]
+      dudeSprite[DudesLayer.Cosmetics],
     ])
     this.sprite.view.scale.set(this.direction * this.scale, this.scale)
 
@@ -219,8 +221,8 @@ export class Dude {
 
   private updateLandAnimation(now: number): void {
     if (
-      this.landAnimationTime &&
-      now - this.landAnimationTime > this.maxLandAnimationTime
+      this.landAnimationTime
+      && now - this.landAnimationTime > this.maxLandAnimationTime
     ) {
       this.playAnimation(DudesFrameTag.Idle)
       this.landAnimationTime = null
@@ -235,11 +237,11 @@ export class Dude {
 
   private updateIdleRunAnimation(now: number): void {
     if (
-      this.idleAnimationTime &&
-      this.idleAnimationMaxTime &&
-      now - this.idleAnimationTime > this.idleAnimationMaxTime &&
-      (this.currentFrameTag === DudesFrameTag.Walk ||
-        this.currentFrameTag === DudesFrameTag.Idle)
+      this.idleAnimationTime
+      && this.idleAnimationMaxTime
+      && now - this.idleAnimationTime > this.idleAnimationMaxTime
+      && (this.currentFrameTag === DudesFrameTag.Walk
+        || this.currentFrameTag === DudesFrameTag.Idle)
     ) {
       if (this.currentFrameTag === DudesFrameTag.Idle) {
         this.playAnimation(DudesFrameTag.Walk)
@@ -252,30 +254,30 @@ export class Dude {
   }
 
   private updateGravity(): void {
-    this.velocity.y =
-      this.velocity.y +
-      (this.settings.settings.dude.gravity * DELTA_TIME) / ROUND
+    this.velocity.y
+      = this.velocity.y
+        + (this.settings.settings.dude.gravity * DELTA_TIME) / ROUND
   }
 
   private getCurrentPosition(): IPointData {
     return {
       x: this.view.position.x + (this.velocity.x * DELTA_TIME) / ROUND,
-      y: this.view.position.y + (this.velocity.y * DELTA_TIME) / ROUND
+      y: this.view.position.y + (this.velocity.y * DELTA_TIME) / ROUND,
     }
   }
 
   private handleGroundCollision(newPosition: IPointData, now: number): void {
-    const groundY =
-      newPosition.y +
-      (Collider.Y + Collider.Height - SPRITE_SIZE / 2) * this.scale
+    const groundY
+      = newPosition.y
+        + (Collider.Y + Collider.Height - SPRITE_SIZE / 2) * this.scale
 
     if (groundY > window.innerHeight) {
       this.velocity.y = 0
       this.velocity.x = 0
 
-      newPosition.y =
-        window.innerHeight -
-        (Collider.Y + Collider.Height - SPRITE_SIZE / 2) * this.scale
+      newPosition.y
+        = window.innerHeight
+          - (Collider.Y + Collider.Height - SPRITE_SIZE / 2) * this.scale
 
       if (this.currentFrameTag === DudesFrameTag.Fall) {
         this.playAnimation(DudesFrameTag.Land)
@@ -316,8 +318,8 @@ export class Dude {
 
   private handleShrinking(): void {
     if (
-      this.growingTime <= 0 &&
-      this.scale > this.settings.settings.dude.scale
+      this.growingTime <= 0
+      && this.scale > this.settings.settings.dude.scale
     ) {
       this.isGrowing = false
       this.updateScale(-0.01)
@@ -333,10 +335,10 @@ export class Dude {
 
   private handleWallCollision(): void {
     const width = window.innerWidth
-    const isCollidingRight =
-      this.view.x + (Collider.Width / 2) * this.scale >= width
-    const isCollidingLeft =
-      this.view.x - (Collider.Width / 2) * this.scale <= 0
+    const isCollidingRight
+      = this.view.x + (Collider.Width / 2) * this.scale >= width
+    const isCollidingLeft
+      = this.view.x - (Collider.Width / 2) * this.scale <= 0
 
     if (isCollidingRight || isCollidingLeft) {
       if (!this.isLeaving) {
@@ -354,8 +356,8 @@ export class Dude {
 
   private updateMovement(): void {
     if (
-      this.currentFrameTag !== DudesFrameTag.Idle ||
-      (this.isGrowing && this.scale < this.settings.settings.dude.growMaxScale)
+      this.currentFrameTag !== DudesFrameTag.Idle
+      || (this.isGrowing && this.scale < this.settings.settings.dude.growMaxScale)
     ) {
       this.view.position.x += (this.direction * DELTA_TIME * 60) / ROUND
     }
@@ -380,19 +382,19 @@ export class Dude {
     this.sprite?.update((DELTA_TIME / ROUND) * 60)
     this.emoteSpitter.update()
 
-    this.emoteSpitter.view.position.y =
-      this.messageBox.view.position.y - this.messageBox.view.height
+    this.emoteSpitter.view.position.y
+      = this.messageBox.view.position.y - this.messageBox.view.height
 
     this.messageBox.update()
-    this.messageBox.view.position.y =
-      this.nameBox.view.position.y - this.nameBox.view.height - 2 * this.scale
+    this.messageBox.view.position.y
+      = this.nameBox.view.position.y - this.nameBox.view.height - 2 * this.scale
 
     this.nameBox.update(this.scale)
   }
 
   updateDirection(direction?: number): void {
-    this.direction =
-      direction ?? Math.random() > 0.5 ? Direction.Right : Direction.Left
+    this.direction
+      = direction ?? Math.random() > 0.5 ? Direction.Right : Direction.Left
   }
 
   updateColor(layer: DudesLayer, color: string): void {
@@ -414,9 +416,9 @@ export class Dude {
   }
 
   updateIdleAnimationTime(
-    { time, maxTime }: { time: number; maxTime?: number } = {
-      time: Number.MAX_SAFE_INTEGER
-    }
+    { time, maxTime }: { time: number, maxTime?: number } = {
+      time: Number.MAX_SAFE_INTEGER,
+    },
   ): void {
     this.idleAnimationTime = time
     this.idleAnimationMaxTime = maxTime ?? Math.random() * 5000
@@ -431,8 +433,8 @@ export class Dude {
 
   updateLifeTime({
     lifeTime,
-    opacityTime
-  }: { lifeTime?: number; opacityTime?: number } = {}): void {
+    opacityTime,
+  }: { lifeTime?: number, opacityTime?: number } = {}): void {
     this.currentLifeTime = lifeTime ?? this.settings.settings.dude.maxLifeTime
     this.currentOpacityTime = opacityTime ?? this.maxOpacityTime
     this.view.alpha = 1

@@ -8,7 +8,7 @@ export const DudesLayer = {
   Eyes: 'eyes',
   Mouth: 'mouth',
   Hat: 'hat',
-  Cosmetics: 'cosmetics'
+  Cosmetics: 'cosmetics',
 } as const
 
 export type DudesLayer = typeof DudesLayer[keyof typeof DudesLayer]
@@ -20,7 +20,7 @@ export const DudesFrameTag = {
   Jump: 'jump',
   Fall: 'fall',
   Land: 'land',
-  Walk: 'walk'
+  Walk: 'walk',
 } as const
 
 export type DudesFrameTag = typeof DudesFrameTag[keyof typeof DudesFrameTag]
@@ -46,14 +46,14 @@ export class TextureProvider {
   private getTextureKey(
     spriteName: string,
     layer: string,
-    frameTag: string
+    frameTag: string,
   ): string {
     return `${spriteName}.${layer}.${frameTag}`
   }
 
   private getAnimatedTexture(
     spriteKey: string,
-    layer: string
+    layer: string,
   ): AnimatedSprite | null {
     const textures = this.textures.get(spriteKey)
     if (textures) return this.textureToAnimatedSprite(textures, layer)
@@ -62,7 +62,7 @@ export class TextureProvider {
 
   private textureToAnimatedSprite(
     textures: DudeFrameObject,
-    spriteType: string
+    spriteType: string,
   ): AnimatedSprite {
     const texture = textures[spriteType]
     const sprite = new AnimatedSprite(texture, false)
@@ -73,7 +73,7 @@ export class TextureProvider {
 
   getTexture(
     spriteName: string,
-    frameTag: DudesFrameTag
+    frameTag: DudesFrameTag,
   ): Record<string, AnimatedSprite> {
     const sprites: Record<string, AnimatedSprite> = {}
 
@@ -90,17 +90,17 @@ export class TextureProvider {
 
       const layers = assets.data.meta.layers
       const frame = assets.data.meta.frameTags?.find(
-        (tag) => tag.name === frameTag
+        (tag) => tag.name === frameTag,
       )
 
       if (frame && layers) {
         const textures = Object.fromEntries<FrameObject[]>(
-          layers.map((layer) => [layer.name, []])
+          layers.map((layer) => [layer.name, []]),
         )
 
         for (let i = frame.from; i <= frame.to; i++) {
           for (const layer in textures) {
-            const frameKey = layer + '_' + i
+            const frameKey = `${layer}_${i}`
             const texture = assets.textures[frameKey]
             if (!texture) continue
             const time = assets.data.frames[frameKey].duration

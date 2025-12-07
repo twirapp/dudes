@@ -12,8 +12,8 @@ export const useDudesIframe = defineStore('use-dudes-iframe', () => {
     dudesIframeRef.value.contentWindow?.postMessage(
       JSON.stringify({
         type: message.type,
-        data: message.data ? toRaw(message.data) : null
-      })
+        data: message.data ? toRaw(message.data) : null,
+      }),
     )
   }
 
@@ -35,6 +35,6 @@ export const useDudesIframe = defineStore('use-dudes-iframe', () => {
   return {
     dudesInited,
     dudesIframeRef,
-    sendMessage
+    sendMessage,
   }
 })

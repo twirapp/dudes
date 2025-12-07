@@ -18,19 +18,20 @@
 </template>
 
 <script setup lang="ts">
-import { VTweakpane } from 'v-tweakpane';
-import type { Pane } from 'tweakpane';
-import DudePreview, { type Sprite } from './dude-preview.vue';
-import { computed, ref } from 'vue';
+import { DudesFrameTag, DudesFrameTagValues } from '@twirapp/dudes-vue'
 import { capitalize, entries } from '@zero-dependency/utils'
-import { dudesLayers } from '../overlay/constants';
-import { useDudesSettings } from '../overlay/use-dudes-settings';
-import { storeToRefs } from 'pinia';
-import { DudesFrameTag, DudesFrameTagValues } from '@twirapp/dudes-vue';
+import { storeToRefs } from 'pinia'
+import { VTweakpane } from 'v-tweakpane'
+import { computed, ref } from 'vue'
+import { dudesLayers } from '../overlay/constants'
+import { useDudesSettings } from '../overlay/use-dudes-settings'
+import DudePreview from './dude-preview.vue'
+import type { Pane } from 'tweakpane'
+import type { Sprite } from './dude-preview.vue'
 
 const options = ref<{
-  fps: number,
-  animation: DudesFrameTag,
+  fps: number
+  animation: DudesFrameTag
 }>({
   fps: 4,
   animation: DudesFrameTag.Walk,
@@ -42,7 +43,7 @@ const sprite = computed<Sprite>(() => {
     body: {
       src: spriteLayers.value.body,
       color: spriteColors.value.bodyColor,
-    }
+    },
   }
 
   for (const [layer] of entries(spriteLayers.value)) {
@@ -69,11 +70,11 @@ function onPaneCreated(pane: Pane) {
   bodySpriteOptions.unshift(hiddenOption)
   pane.addBinding(spriteLayers.value, 'body', {
     label: 'Body',
-    options: bodySpriteOptions.slice(1)
+    options: bodySpriteOptions.slice(1),
   })
 
   pane.addBinding(spriteColors.value, 'bodyColor', {
-    label: ''
+    label: '',
   })
 
   pane.addBlade({ view: 'separator' })
@@ -83,11 +84,11 @@ function onPaneCreated(pane: Pane) {
   eyesSpriteOptions.unshift(hiddenOption)
   pane.addBinding(spriteLayers.value, 'eyes', {
     label: 'Eyes',
-    options: eyesSpriteOptions
+    options: eyesSpriteOptions,
   })
 
   pane.addBinding(spriteColors.value, 'eyesColor', {
-    label: ''
+    label: '',
   })
 
   pane.addBlade({ view: 'separator' })
@@ -97,11 +98,11 @@ function onPaneCreated(pane: Pane) {
   mouthSpriteOptions.unshift(hiddenOption)
   pane.addBinding(spriteLayers.value, 'mouth', {
     label: 'Mouth',
-    options: mouthSpriteOptions
+    options: mouthSpriteOptions,
   })
 
   pane.addBinding(spriteColors.value, 'mouthColor', {
-    label: ''
+    label: '',
   })
 
   pane.addBlade({ view: 'separator' })
@@ -111,11 +112,11 @@ function onPaneCreated(pane: Pane) {
   hatSpriteOptions.unshift(hiddenOption)
   pane.addBinding(spriteLayers.value, 'hat', {
     label: 'Hat',
-    options: hatSpriteOptions
+    options: hatSpriteOptions,
   })
 
   pane.addBinding(spriteColors.value, 'hatColor', {
-    label: ''
+    label: '',
   })
 
   pane.addBlade({ view: 'separator' })
@@ -125,11 +126,11 @@ function onPaneCreated(pane: Pane) {
   cosmeticsSpriteOptions.unshift(hiddenOption)
   pane.addBinding(spriteLayers.value, 'cosmetics', {
     label: 'Cosmetic',
-    options: cosmeticsSpriteOptions
+    options: cosmeticsSpriteOptions,
   })
 
   pane.addBinding(spriteColors.value, 'cosmeticsColor', {
-    label: ''
+    label: '',
   })
 
   pane.addBlade({ view: 'separator' })
@@ -143,7 +144,7 @@ function onPaneCreated(pane: Pane) {
 
   pane.addBinding(options.value, 'animation', {
     label: 'Animation',
-    options: frameTagOptions
+    options: frameTagOptions,
   })
 }
 </script>

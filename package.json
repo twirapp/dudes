@@ -8,11 +8,15 @@
     "build": "turbo build",
     "build:playground": "turbo build --filter=./playground",
     "type-check": "turbo type-check",
+    "lint": "eslint . --cache",
+    "lint:fix": "eslint . --fix --cache",
     "changeset": "changeset"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "6.4.2",
     "@changesets/cli": "2.29.8",
     "@types/node": "22.19.1",
+    "eslint": "9.39.1",
     "turbo": "2.6.3",
     "typescript": "5.9.3"
   },

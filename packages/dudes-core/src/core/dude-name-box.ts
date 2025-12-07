@@ -10,7 +10,7 @@ export class DudeNameBox {
   constructor(
     name: string,
     private readonly settings: DudeSettings,
-    private readonly styles?: DudesTypes.IndividualNameBoxStyles
+    private readonly styles?: DudesTypes.IndividualNameBoxStyles,
   ) {
     this.view = new Text(name)
     this.view.anchor.set(0.5, 1)
@@ -31,7 +31,7 @@ export class DudeNameBox {
   private updateParams(styles: Record<string, any>): void {
     this.view.style = {
       ...styles,
-      align: 'center'
+      align: 'center',
     }
   }
 }

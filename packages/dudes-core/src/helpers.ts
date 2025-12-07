@@ -25,7 +25,7 @@ type IUnionToIntersection<U> = (
   ? I
   : never
 
-const isObject = (obj: any) => {
+function isObject(obj: any) {
   if (typeof obj === 'object' && obj !== null) {
     if (typeof Object.getPrototypeOf === 'function') {
       const prototype = Object.getPrototypeOf(obj)
@@ -41,7 +41,7 @@ const isObject = (obj: any) => {
 const PROTECTED_KEYS = [
   '__proto__',
   'constructor',
-  'prototype'
+  'prototype',
 ]
 
 export function deepMerge<T extends IObject[]>(

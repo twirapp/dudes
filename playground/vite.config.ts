@@ -15,40 +15,40 @@ export default defineConfig({
           filename: 'index.html',
           entry: '/src/pages/playground/index.ts',
           data: {
-            title: 'Dudes Playground'
-          }
+            title: 'Dudes Playground',
+          },
         },
         {
           name: 'overlay',
           filename: 'overlay.html',
           entry: '/src/pages/overlay/index.ts',
           data: {
-            title: 'Dudes Overlay'
-          }
+            title: 'Dudes Overlay',
+          },
         },
         {
           name: 'configurator',
           filename: 'configurator.html',
           entry: '/src/pages/configurator/index.ts',
           data: {
-            title: 'Dudes Configurator'
-          }
-        }
-      ]
-    })
+            title: 'Dudes Configurator',
+          },
+        },
+      ],
+    }),
   ],
   resolve: {
     alias: [
       {
         find: '@',
-        replacement: fileURLToPath(new URL('./src', import.meta.url))
-      }
-    ]
+        replacement: fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    ],
   },
   build: {
-    target: 'esnext'
+    target: 'esnext',
   },
   optimizeDeps: {
-    force: true
-  }
+    force: true,
+  },
 })

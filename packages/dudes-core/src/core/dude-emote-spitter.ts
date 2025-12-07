@@ -6,7 +6,7 @@ import {
   DELTA_TIME,
   MOVE_SPEED,
   ROUND,
-  SCALE_SPEED
+  SCALE_SPEED,
 } from '../constants.js'
 import { sleep } from '../helpers.js'
 

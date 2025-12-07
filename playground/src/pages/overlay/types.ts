@@ -1,4 +1,4 @@
-import { DudesLayer } from '@twirapp/dudes-vue'
+import type { DudesLayer } from '@twirapp/dudes-vue'
 import type { DudesTypes } from '@twirapp/dudes-vue/types'
 
 export type SpriteLayers = Record<DudesLayer, string>
@@ -8,7 +8,7 @@ export type SpriteColors = {
   [Layer in DudesLayer as LayerColor<Layer>]: string
 }
 
-export type DudesSettings = {
+export interface DudesSettings {
   dude: DudesTypes.DudeStyles
   sounds: DudesTypes.DudeSounds
   message: DudesTypes.MessageBoxStyles
@@ -21,16 +21,16 @@ interface OverlayMessageDudeData {
   name: string
 }
 
-export type OverlayMessageEvent =
-  | { type: 'spawn'; data: OverlayMessageDudeData }
-  | { type: 'jump'; data: null }
-  | { type: 'grow'; data: null }
-  | { type: 'leave'; data: null }
-  | { type: 'walk'; data: null }
-  | { type: 'idle'; data: null }
-  | { type: 'clear'; data: null }
-  | { type: 'spit-emote'; data: string }
-  | { type: 'show-message'; data: string }
-  | { type: 'update-sprite'; data: SpriteLayers }
-  | { type: 'update-colors'; data: SpriteColors }
-  | { type: 'update-settings'; data: DudesSettings }
+export type OverlayMessageEvent
+  = | { type: 'spawn', data: OverlayMessageDudeData }
+    | { type: 'jump', data: null }
+    | { type: 'grow', data: null }
+    | { type: 'leave', data: null }
+    | { type: 'walk', data: null }
+    | { type: 'idle', data: null }
+    | { type: 'clear', data: null }
+    | { type: 'spit-emote', data: string }
+    | { type: 'show-message', data: string }
+    | { type: 'update-sprite', data: SpriteLayers }
+    | { type: 'update-colors', data: SpriteColors }
+    | { type: 'update-settings', data: DudesSettings }

@@ -1,6 +1,10 @@
+<template>
+  <canvas ref="canvasRef" />
+</template>
+
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch, shallowRef } from 'vue'
 import { Dudes } from '@twirapp/dudes'
+import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
 import type { AssetsLoaderOptions, DudePartialSettings, SoundAsset } from './types.js'
 
 const props = defineProps<{
@@ -27,7 +31,7 @@ onMounted(() => {
   dudes.value = new Dudes({
     soundAssets: props.sounds,
     assetsLoaderOptions: props.assetsLoaderOptions,
-    settings: props.settings
+    settings: props.settings,
   })
 })
 
@@ -38,10 +42,6 @@ onUnmounted(() => {
 
 defineExpose({
   dudes,
-  initDudes
+  initDudes,
 })
 </script>
-
-<template>
-  <canvas ref="canvasRef" />
-</template>

@@ -2,7 +2,7 @@ export const ROUND = 1000
 export const DELTA_TIME = 0.02 * ROUND
 export const SPRITE_SIZE = 32
 
-type Collider = {
+interface Collider {
   X: number
   Y: number
   Width: number
@@ -11,14 +11,14 @@ type Collider = {
 
 export const Direction = {
   Left: -1,
-  Right: 1
+  Right: 1,
 }
 
 export const Collider: Collider = {
   X: 8,
   Y: 3,
   Width: 16,
-  Height: 22
+  Height: 22,
 }
 
 // message box

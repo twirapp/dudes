@@ -1,20 +1,36 @@
+<template>
+  <Teleport to="body">
+    <v-tweakpane
+      style="overflow-y: scroll;"
+      :pane="{ title: 'Dudes Playground' }"
+      @on-pane-created="onPaneCreated"
+    />
+  </Teleport>
+  <iframe
+    ref="dudesIframeRef"
+    class="iframe-overlay"
+    src="overlay.html"
+    frameborder="false"
+  />
+</template>
+
 <script setup lang="ts">
+import { randomNum } from '@zero-dependency/utils'
+import { storeToRefs } from 'pinia'
 import { VTweakpane } from 'v-tweakpane'
 import { watch } from 'vue'
-import { randomNum } from '@zero-dependency/utils'
-import { useDudesSettings } from '../overlay/use-dudes-settings.js'
-import { storeToRefs } from 'pinia'
-import { useDudesIframe } from '../overlay/use-dudes-iframe.js'
-import { dudesLayers } from '../overlay/constants.js'
-import { dudesEmotes, dudesMessages } from './constants.js'
 import { randomEmoji } from '@/utils.js'
+import { dudesLayers } from '../overlay/constants.js'
+import { useDudesIframe } from '../overlay/use-dudes-iframe.js'
+import { useDudesSettings } from '../overlay/use-dudes-settings.js'
+import { dudesEmotes, dudesMessages } from './constants.js'
 
 import type { Pane } from 'tweakpane'
 
 const {
   dudesSettings,
   spriteColors,
-  spriteLayers
+  spriteLayers,
 } = storeToRefs(useDudesSettings())
 
 const dudesIframe = useDudesIframe()
@@ -23,21 +39,21 @@ const { dudesIframeRef, dudesInited } = storeToRefs(dudesIframe)
 watch(dudesSettings, (settings) => {
   dudesIframe.sendMessage({
     type: 'update-settings',
-    data: settings
+    data: settings,
   })
 }, { deep: true })
 
 watch(spriteLayers, (layers) => {
   dudesIframe.sendMessage({
     type: 'update-sprite',
-    data: layers
+    data: layers,
   })
 }, { deep: true })
 
 watch(spriteColors, (colors) => {
   dudesIframe.sendMessage({
     type: 'update-colors',
-    data: colors
+    data: colors,
   })
 }, { deep: true })
 
@@ -46,12 +62,12 @@ watch(dudesInited, (inited) => {
 
   dudesIframe.sendMessage({
     type: 'update-sprite',
-    data: spriteLayers.value
+    data: spriteLayers.value,
   })
 
   dudesIframe.sendMessage({
     type: 'spawn',
-    data: { id: 'Twir', name: 'Twir' }
+    data: { id: 'Twir', name: 'Twir' },
   })
 })
 
@@ -101,7 +117,7 @@ function onPaneCreated(pane: Pane) {
     'Arial': 'Arial',
     'Times New Roman': 'Times New Roman',
     'Courier New': 'Courier New',
-    'Verdana': 'Verdana'
+    'Verdana': 'Verdana',
   }
 
   const dudeFolder = pane.addFolder({ title: 'Dude' })
@@ -113,11 +129,11 @@ function onPaneCreated(pane: Pane) {
   bodySpriteOptions.unshift(hiddenOption)
   dudeFolder.addBinding(spriteLayers.value, 'body', {
     label: 'Body',
-    options: bodySpriteOptions.slice(1)
+    options: bodySpriteOptions.slice(1),
   })
 
   dudeFolder.addBinding(spriteColors.value, 'bodyColor', {
-    label: ''
+    label: '',
   })
 
   dudeFolder.addBlade({ view: 'separator' })
@@ -127,11 +143,11 @@ function onPaneCreated(pane: Pane) {
   eyesSpriteOptions.unshift(hiddenOption)
   dudeFolder.addBinding(spriteLayers.value, 'eyes', {
     label: 'Eyes',
-    options: eyesSpriteOptions
+    options: eyesSpriteOptions,
   })
 
   dudeFolder.addBinding(spriteColors.value, 'eyesColor', {
-    label: ''
+    label: '',
   })
 
   dudeFolder.addBlade({ view: 'separator' })
@@ -141,11 +157,11 @@ function onPaneCreated(pane: Pane) {
   mouthSpriteOptions.unshift(hiddenOption)
   dudeFolder.addBinding(spriteLayers.value, 'mouth', {
     label: 'Mouth',
-    options: mouthSpriteOptions
+    options: mouthSpriteOptions,
   })
 
   dudeFolder.addBinding(spriteColors.value, 'mouthColor', {
-    label: ''
+    label: '',
   })
 
   dudeFolder.addBlade({ view: 'separator' })
@@ -155,11 +171,11 @@ function onPaneCreated(pane: Pane) {
   hatSpriteOptions.unshift(hiddenOption)
   dudeFolder.addBinding(spriteLayers.value, 'hat', {
     label: 'Hat',
-    options: hatSpriteOptions
+    options: hatSpriteOptions,
   })
 
   dudeFolder.addBinding(spriteColors.value, 'hatColor', {
-    label: ''
+    label: '',
   })
 
   dudeFolder.addBlade({ view: 'separator' })
@@ -169,23 +185,23 @@ function onPaneCreated(pane: Pane) {
   cosmeticsSpriteOptions.unshift(hiddenOption)
   dudeFolder.addBinding(spriteLayers.value, 'cosmetics', {
     label: 'Cosmetics',
-    options: cosmeticsSpriteOptions
+    options: cosmeticsSpriteOptions,
   })
 
   dudeFolder.addBinding(spriteColors.value, 'cosmeticsColor', {
-    label: ''
+    label: '',
   })
 
   dudeFolder.addBlade({ view: 'separator' })
 
   dudeFolder.addBinding(dudesSettings.value.sounds, 'enabled', {
-    label: 'Sounds'
+    label: 'Sounds',
   })
   dudeFolder.addBinding(dudesSettings.value.sounds, 'volume', {
     label: 'Volume',
     min: 0.01,
     max: 1,
-    step: 0.01
+    step: 0.01,
   })
 
   dudeFolder.addBlade({ view: 'separator' })
@@ -194,13 +210,13 @@ function onPaneCreated(pane: Pane) {
     label: 'Grow time',
     min: 1000 * 1,
     max: 1000 * 60 * 60,
-    step: 1000
+    step: 1000,
   })
   dudeFolder.addBinding(dudesSettings.value.dude, 'growMaxScale', {
     label: 'Grow max scale',
     min: 4,
     max: 32,
-    step: 0.1
+    step: 0.1,
   })
 
   dudeFolder.addBlade({ view: 'separator' })
@@ -209,12 +225,12 @@ function onPaneCreated(pane: Pane) {
     label: 'Gravity',
     min: 10,
     max: 10000,
-    step: 1
+    step: 1,
   })
   dudeFolder.addBinding(dudesSettings.value.dude, 'maxLifeTime', {
     label: 'Max life time on screen',
     min: 1000 * 1,
-    max: 1000 * 60 * 60
+    max: 1000 * 60 * 60,
   })
   dudeFolder.addBinding(dudesSettings.value.dude, 'scale', {
     label: 'Scale',
@@ -243,105 +259,89 @@ function onPaneCreated(pane: Pane) {
   messageBoxFolder.addBinding(dudesSettings.value.message, 'fill')
   messageBoxFolder.addBinding(dudesSettings.value.message, 'boxColor')
   messageBoxFolder.addBinding(dudesSettings.value.message, 'fontFamily', {
-    options: fonts
+    options: fonts,
   })
   messageBoxFolder.addBinding(dudesSettings.value.message, 'fontSize', {
     min: 10,
     max: 64,
-    step: 1
+    step: 1,
   })
   messageBoxFolder.addBinding(dudesSettings.value.message, 'borderRadius', {
     min: 0,
     max: 64,
-    step: 1
+    step: 1,
   })
   messageBoxFolder.addBinding(dudesSettings.value.message, 'padding', {
     min: 0,
     max: 64,
-    step: 1
+    step: 1,
   })
   messageBoxFolder.addBinding(dudesSettings.value.message, 'showTime', {
     min: 1000,
-    max: 1000 * 10
+    max: 1000 * 10,
   })
 
   const nameBoxFolder = pane.addFolder({ title: 'Name', expanded: false })
   nameBoxFolder.addBinding(dudesSettings.value.name, 'enabled')
   nameBoxFolder.addBinding(dudesSettings.value.name, 'fill')
   nameBoxFolder.addBinding(dudesSettings.value.name, 'fontFamily', {
-    options: fonts
+    options: fonts,
   })
   nameBoxFolder.addBinding(dudesSettings.value.name, 'fontSize', {
     min: 10,
     max: 64,
-    step: 1
+    step: 1,
   })
   nameBoxFolder.addBinding(dudesSettings.value.name, 'fontStyle', {
     options: {
       normal: 'normal',
-      italic: 'italic'
-    }
+      italic: 'italic',
+    },
   })
   nameBoxFolder.addBinding(dudesSettings.value.name, 'fontVariant', {
     options: {
-      normal: 'normal',
-      'small-caps': 'small-caps'
-    }
+      'normal': 'normal',
+      'small-caps': 'small-caps',
+    },
   })
   nameBoxFolder.addBinding(dudesSettings.value.name, 'fontWeight', {
     options: [100, 200, 300, 400, 500, 600, 700, 800, 900].map((weight) => ({
       text: `${weight}`,
-      value: weight
-    }))
+      value: weight,
+    })),
   })
   nameBoxFolder.addBinding(dudesSettings.value.name, 'stroke')
   nameBoxFolder.addBinding(dudesSettings.value.name, 'strokeThickness', {
     min: 0,
     max: 10,
-    step: 1
+    step: 1,
   })
   nameBoxFolder.addBinding(dudesSettings.value.name, 'dropShadow')
   nameBoxFolder.addBinding(dudesSettings.value.name, 'dropShadowColor')
   nameBoxFolder.addBinding(dudesSettings.value.name, 'dropShadowDistance', {
     min: 0,
     max: 32,
-    step: 0.1
+    step: 0.1,
   })
   nameBoxFolder.addBinding(dudesSettings.value.name, 'dropShadowAlpha', {
     min: 0,
     max: 1,
-    step: 0.01
+    step: 0.01,
   })
   nameBoxFolder.addBinding(dudesSettings.value.name, 'dropShadowBlur', {
     min: 0,
     max: 1,
-    step: 0.01
+    step: 0.01,
   })
   nameBoxFolder.addBinding(dudesSettings.value.name, 'dropShadowAngle', {
     min: 0,
-    max: Math.PI * 2
+    max: Math.PI * 2,
   })
 
   const emoteFolder = pane.addFolder({ title: 'Emote', expanded: false })
   emoteFolder.addBinding(dudesSettings.value.emotes, 'enabled')
 }
 </script>
-
-<template>
-  <Teleport to="body">
-    <v-tweakpane
-      style="overflow-y: scroll;"
-      :pane="{ title: 'Dudes Playground' }"
-      @on-pane-created="onPaneCreated"
-    />
-  </Teleport>
-  <iframe
-    ref="dudesIframeRef"
-    class="iframe-overlay"
-    src="overlay.html"
-    frameborder="false"
-  />
-</template>
 
 <style scoped>
 .iframe-overlay {

@@ -10,22 +10,22 @@ export default defineConfig({
     lib: {
       entry: './src/index.ts',
       name: 'dudes',
-      fileName: 'dudes'
+      fileName: 'dudes',
     },
     rollupOptions: {
       external: [
         'gsap',
         'pixi.js',
-        '@pixi/gif'
+        '@pixi/gif',
       ],
       output: {
         exports: 'named',
         globals: {
-          gsap: 'gsap',
+          'gsap': 'gsap',
           'pixi.js': 'pixi',
-          '@pixi/gif': 'pixiGIF'
-        }
-      }
-    }
-  }
+          '@pixi/gif': 'pixiGIF',
+        },
+      },
+    },
+  },
 })

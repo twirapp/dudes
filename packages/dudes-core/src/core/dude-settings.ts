@@ -1,7 +1,7 @@
 import { deepMerge } from '../helpers.js'
 import type { DudePartialSettings, DudesTypes } from '../types.js'
 
-export type DudeInternalSettings = {
+export interface DudeInternalSettings {
   dude: DudesTypes.DudeStyles
   sounds: DudesTypes.DudeSounds
   message: DudesTypes.MessageBoxStyles
@@ -17,11 +17,11 @@ export class DudeSettings {
       growTime: 1000 * 60 * 5,
       growMaxScale: 20,
       gravity: 400,
-      scale: 4
+      scale: 4,
     },
     sounds: {
       enabled: true,
-      volume: 0.01
+      volume: 0.01,
     },
     message: {
       enabled: true,
@@ -31,7 +31,7 @@ export class DudeSettings {
       fontSize: 20,
       padding: 10,
       showTime: 5 * 1000,
-      fill: '#333333'
+      fill: '#333333',
     },
     name: {
       enabled: true,
@@ -51,11 +51,11 @@ export class DudeSettings {
       dropShadowAngle: 0,
       dropShadowBlur: 0.1,
       dropShadowDistance: 10,
-      dropShadowColor: '#3EC7D9'
+      dropShadowColor: '#3EC7D9',
     },
     emotes: {
-      enabled: true
-    }
+      enabled: true,
+    },
   }
 
   get settings() {

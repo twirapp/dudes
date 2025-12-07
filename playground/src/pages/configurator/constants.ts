@@ -1,4 +1,4 @@
-import { DudesFrameTag } from "@twirapp/dudes-vue"
+import { DudesFrameTag } from '@twirapp/dudes-vue'
 
 export interface FrameAnimation {
   name: DudesFrameTag
@@ -31,5 +31,5 @@ export const frameAnimations: FrameAnimation[] = [
     name: DudesFrameTag.Walk,
     from: 6,
     to: 8,
-  }
+  },
 ]

@@ -10,20 +10,20 @@ export default defineConfig({
     lib: {
       entry: './src/index.ts',
       name: 'dudes-vue',
-      fileName: 'dudes-vue'
+      fileName: 'dudes-vue',
     },
     rollupOptions: {
       external: [
         'vue',
-        '@twirapp/dudes'
+        '@twirapp/dudes',
       ],
       output: {
         exports: 'named',
         globals: {
-          vue: 'Vue',
-          '@twirapp/dudes': 'dudes'
-        }
-      }
-    }
-  }
+          'vue': 'Vue',
+          '@twirapp/dudes': 'dudes',
+        },
+      },
+    },
+  },
 })

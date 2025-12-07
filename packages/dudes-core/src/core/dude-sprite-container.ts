@@ -1,6 +1,7 @@
-import { AnimatedSprite, Container } from 'pixi.js'
-
+import { Container } from 'pixi.js'
 import { DudesLayerValues } from './texture-provider.js'
+
+import type { AnimatedSprite } from 'pixi.js'
 import type { DudesLayer } from './texture-provider.js'
 
 export class DudeSpriteContainer {

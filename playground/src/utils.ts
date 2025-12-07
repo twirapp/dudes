@@ -4,15 +4,15 @@ export function randomRgbColor(): string {
   return rgbToHex({
     r: randomNum(0, 255),
     g: randomNum(0, 255),
-    b: randomNum(0, 255)
+    b: randomNum(0, 255),
   })
 }
 
 const CHAR_RANGE = {
-  emoticons: [0x1f600, 0x1f64f],
-  food: [0x1f32d, 0x1f37f],
-  animals: [0x1f400, 0x1f4d3],
-  expressions: [0x1f910, 0x1f92f]
+  emoticons: [0x1F600, 0x1F64F],
+  food: [0x1F32D, 0x1F37F],
+  animals: [0x1F400, 0x1F4D3],
+  expressions: [0x1F910, 0x1F92F],
 }
 
 type NamedCharRange = keyof typeof CHAR_RANGE
