@@ -92,7 +92,7 @@ export class Dudes {
   }
 
   getDude(dudeId: string): Dude | undefined {
-    return this.dudesMap.get(dudeId) as Dude
+    return this.dudesMap.get(dudeId)
   }
 
   async createDude(config: DudesTypes.DudeConfig): Promise<Dude> {

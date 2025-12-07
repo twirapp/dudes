@@ -6,7 +6,7 @@ import type {
 } from 'pixi.js'
 
 import { isBase64 } from '../helpers.js'
-import { DudesFrameTags } from './texture-provider.js'
+import { DudesFrameTag } from './texture-provider.js'
 import type { DudesTypes } from '../types.js'
 import type { TextureProvider } from './texture-provider.js'
 
@@ -83,31 +83,31 @@ export class SpriteLoader {
         scale: '1',
         frameTags: [
           {
-            name: DudesFrameTags.idle,
+            name: DudesFrameTag.Idle,
             from: 0,
             to: 2,
             direction: 'forward'
           },
           {
-            name: DudesFrameTags.jump,
+            name: DudesFrameTag.Jump,
             from: 3,
             to: 3,
             direction: 'forward'
           },
           {
-            name: DudesFrameTags.fall,
+            name: DudesFrameTag.Fall,
             from: 4,
             to: 4,
             direction: 'forward'
           },
           {
-            name: DudesFrameTags.land,
+            name: DudesFrameTag.Land,
             from: 5,
             to: 5,
             direction: 'forward'
           },
           {
-            name: DudesFrameTags.run,
+            name: DudesFrameTag.Walk,
             from: 6,
             to: 8,
             direction: 'forward'

@@ -1,21 +1,22 @@
-import { DudesLayers } from '@twirapp/dudes-vue'
-import type { DudesLayer, DudesTypes } from '@twirapp/dudes-vue/types'
+import { DudesLayer } from '@twirapp/dudes-vue'
+import type { DudesTypes } from '@twirapp/dudes-vue/types'
 
+import { entries } from '@zero-dependency/utils'
 import type { SpriteLayers } from './types.js'
 
 export function createDudeSprite(spriteLayers: SpriteLayers, name = 'dude') {
   const layers = {
-    [DudesLayers.body]: spriteLayers.body,
-    [DudesLayers.eyes]: spriteLayers.eyes,
-    [DudesLayers.mouth]: spriteLayers.mouth,
-    [DudesLayers.hat]: spriteLayers.hat,
-    [DudesLayers.cosmetics]: spriteLayers.cosmetics
+    [DudesLayer.Body]: spriteLayers.body,
+    [DudesLayer.Eyes]: spriteLayers.eyes,
+    [DudesLayer.Mouth]: spriteLayers.mouth,
+    [DudesLayer.Hat]: spriteLayers.hat,
+    [DudesLayer.Cosmetics]: spriteLayers.cosmetics
   }
 
   const sprite: DudesTypes.SpriteData = {
     name,
-    layers: Object.entries(layers)
-      .map(([layer, src]) => ({ layer: layer as DudesLayer, src }))
+    layers: entries(layers)
+      .map(([layer, src]) => ({ layer, src }))
       .filter((layer) => layer.src)
   }
 

@@ -1,4 +1,4 @@
-import { DudesLayer } from '@twirapp/dudes-vue/types'
+import { DudesLayer } from '@twirapp/dudes-vue'
 import type { DudesTypes } from '@twirapp/dudes-vue/types'
 
 export type SpriteLayers = Record<DudesLayer, string>
@@ -26,7 +26,7 @@ export type OverlayMessageEvent =
   | { type: 'jump'; data: null }
   | { type: 'grow'; data: null }
   | { type: 'leave'; data: null }
-  | { type: 'run'; data: null }
+  | { type: 'walk'; data: null }
   | { type: 'idle'; data: null }
   | { type: 'clear'; data: null }
   | { type: 'spit-emote'; data: string }

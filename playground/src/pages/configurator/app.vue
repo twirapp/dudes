@@ -11,6 +11,7 @@
     <dude-preview
       :size="512"
       :sprite="sprite"
+      :fps="options.fps"
       :animation="options.animation"
     />
   </div>
@@ -19,18 +20,20 @@
 <script setup lang="ts">
 import { VTweakpane } from 'v-tweakpane';
 import type { Pane } from 'tweakpane';
-import { DudesFrameTags } from './constants';
-import DudePreview, { Sprite } from './dude-preview.vue';
+import DudePreview, { type Sprite } from './dude-preview.vue';
 import { computed, ref } from 'vue';
 import { capitalize, entries } from '@zero-dependency/utils'
 import { dudesLayers } from '../overlay/constants';
 import { useDudesSettings } from '../overlay/use-dudes-settings';
 import { storeToRefs } from 'pinia';
+import { DudesFrameTag, DudesFrameTagValues } from '@twirapp/dudes-vue';
 
 const options = ref<{
-  animation: DudesFrameTags,
+  fps: number,
+  animation: DudesFrameTag,
 }>({
-  animation: DudesFrameTags.Walk,
+  fps: 4,
+  animation: DudesFrameTag.Walk,
 })
 
 const { spriteColors, spriteLayers } = storeToRefs(useDudesSettings())
@@ -56,8 +59,10 @@ const sprite = computed<Sprite>(() => {
 
 function onPaneCreated(pane: Pane) {
   const hiddenOption = { text: 'Hidden', value: '' }
-  const frameTagOptions = Object.values(DudesFrameTags)
+
+  const frameTagOptions = DudesFrameTagValues
     .map((frame) => ({ text: capitalize(frame), value: frame }))
+
   const bodySpriteOptions = dudesLayers.body
     .map((layer) => ({ text: layer.name, value: layer.src }))
 
@@ -128,6 +133,13 @@ function onPaneCreated(pane: Pane) {
   })
 
   pane.addBlade({ view: 'separator' })
+
+  pane.addBinding(options.value, 'fps', {
+    label: 'FPS',
+    min: 4,
+    max: 24,
+    step: 0.1,
+  })
 
   pane.addBinding(options.value, 'animation', {
     label: 'Animation',

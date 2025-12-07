@@ -1,2 +1,7 @@
 export { Dudes } from './dudes.js'
-export { DudesLayers, DudesFrameTags } from './core/texture-provider.js'
+export {
+  DudesLayer,
+  DudesFrameTag,
+  DudesLayerValues,
+  DudesFrameTagValues,
+} from './core/texture-provider.js'

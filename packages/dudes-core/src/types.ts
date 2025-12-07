@@ -1,7 +1,7 @@
 import type { Dude } from './core/dude.js'
 import type { SoundAsset, SoundType } from './core/sounds-loader.js'
 import type { AssetsLoaderOptions } from './core/sprite-loader.js'
-import type { DudesLayer, DudeSpriteFrameTag } from './core/texture-provider.js'
+import type { DudesLayer, DudesFrameTag } from './core/texture-provider.js'
 import type { RecursivePartial } from './helpers.js'
 
 export namespace DudesTypes {
@@ -230,8 +230,8 @@ export namespace DudesTypes {
   }
 
   export interface SpriteLayer {
-    layer: DudesLayer
     src: string
+    layer: DudesLayer
   }
 }
 
@@ -245,9 +245,7 @@ export type DudePartialSettings = RecursivePartial<{
 
 export type {
   Dude,
-  DudesLayer,
   SoundAsset,
   SoundType,
-  DudeSpriteFrameTag,
   AssetsLoaderOptions
 }

@@ -69,7 +69,7 @@ function growDudes() {
 }
 
 function runDudes() {
-  dudesIframe.sendMessage({ type: 'run', data: null })
+  dudesIframe.sendMessage({ type: 'walk', data: null })
 }
 
 function idleDudes() {
@@ -227,7 +227,7 @@ function onPaneCreated(pane: Pane) {
   dudeFolder.addButton({ title: 'Spawn' }).on('click', spawnDude)
   dudeFolder.addButton({ title: 'Jump' }).on('click', jumpDudes)
   dudeFolder.addButton({ title: 'Grow' }).on('click', growDudes)
-  dudeFolder.addButton({ title: 'Run' }).on('click', runDudes)
+  dudeFolder.addButton({ title: 'Walk' }).on('click', runDudes)
   dudeFolder.addButton({ title: 'Idle' }).on('click', idleDudes)
   dudeFolder.addButton({ title: 'Leave' }).on('click', leaveDudes)
   dudeFolder.addButton({ title: 'Show message' }).on('click', showMessageDudes)

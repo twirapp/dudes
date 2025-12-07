@@ -1,6 +1,6 @@
 import { AnimatedSprite, Container } from 'pixi.js'
 
-import { DudesLayersKeys } from './texture-provider.js'
+import { DudesLayerValues } from './texture-provider.js'
 import type { DudesLayer } from './texture-provider.js'
 
 export class DudeSpriteContainer {
@@ -26,9 +26,8 @@ export class DudeSpriteContainer {
   }
 
   update(delta: number): void {
-    for (const layer of DudesLayersKeys) {
-      const layerKey = layer as DudesLayer
-      this[layerKey]?.update(delta)
+    for (const layer of DudesLayerValues) {
+      this[layer]?.update(delta)
     }
   }
 

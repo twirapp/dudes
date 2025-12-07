@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DudesOverlay, { DudesFrameTags, DudesLayers } from '@twirapp/dudes-vue'
+import DudesOverlay, { DudesFrameTag, DudesLayer } from '@twirapp/dudes-vue'
 import { onMounted } from 'vue'
 import { createDudeSprite } from './utils.js'
 import { assetsLoaderOptions, dudesSounds } from './constants.js'
@@ -77,10 +77,10 @@ async function onMessage(event: MessageEvent<string>) {
     })
   }
 
-  if (type === 'run') {
+  if (type === DudesFrameTag.Walk) {
     traverseDudes((dude) => {
       dude.updateIdleAnimationTime({ time: performance.now() })
-      dude.playAnimation(DudesFrameTags.run)
+      dude.playAnimation(DudesFrameTag.Walk)
     })
   }
 
@@ -90,7 +90,7 @@ async function onMessage(event: MessageEvent<string>) {
         time: Number.MAX_SAFE_INTEGER,
         maxTime: Number.MAX_SAFE_INTEGER
       })
-      dude.playAnimation(DudesFrameTags.idle)
+      dude.playAnimation(DudesFrameTag.Idle)
     })
   }
 
@@ -115,11 +115,11 @@ async function updateDudesSprite(): Promise<void> {
 
 function updateDudesColors(): void {
   traverseDudes((dude) => {
-    dude.updateColor(DudesLayers.body, spriteColors.value.bodyColor)
-    dude.updateColor(DudesLayers.eyes, spriteColors.value.eyesColor)
-    dude.updateColor(DudesLayers.mouth, spriteColors.value.mouthColor)
-    dude.updateColor(DudesLayers.hat, spriteColors.value.hatColor)
-    dude.updateColor(DudesLayers.cosmetics, spriteColors.value.cosmeticsColor)
+    dude.updateColor(DudesLayer.Body, spriteColors.value.bodyColor)
+    dude.updateColor(DudesLayer.Eyes, spriteColors.value.eyesColor)
+    dude.updateColor(DudesLayer.Mouth, spriteColors.value.mouthColor)
+    dude.updateColor(DudesLayer.Hat, spriteColors.value.hatColor)
+    dude.updateColor(DudesLayer.Cosmetics, spriteColors.value.cosmeticsColor)
   })
 }
 </script>

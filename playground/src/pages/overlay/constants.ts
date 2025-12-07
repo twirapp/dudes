@@ -1,6 +1,6 @@
+import { DudesLayer } from '@twirapp/dudes-vue'
 import type {
   AssetsLoaderOptions,
-  DudesLayer,
   SoundAsset
 } from '@twirapp/dudes-vue/types'
 

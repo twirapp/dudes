@@ -20,7 +20,8 @@
 import { entries } from '@zero-dependency/utils'
 import { assetsLoaderOptions, dudesLayers } from '../overlay/constants.js'
 import { computed, ref, onMounted, onUnmounted } from 'vue'
-import { DudesFrameTags, frameAnimations } from './constants.js'
+import { frameAnimations } from './constants.js'
+import { DudesFrameTag } from '@twirapp/dudes-vue'
 
 interface SpriteData {
   src: string
@@ -38,7 +39,8 @@ export interface Sprite {
 interface DudePreviewProps {
   size: number
   sprite?: Sprite
-  animation?: DudesFrameTags
+  animation?: DudesFrameTag
+  fps?: number
 }
 
 const props = withDefaults(defineProps<DudePreviewProps>(), {
@@ -64,7 +66,8 @@ const props = withDefaults(defineProps<DudePreviewProps>(), {
       color: '#fff'
     }
   }),
-  animation: DudesFrameTags.Idle,
+  fps: 4,
+  animation: DudesFrameTag.Idle,
 })
 
 const currentFrameIndex = ref(0)
@@ -99,7 +102,7 @@ const currentAnimation = computed(() => {
 })
 
 function animate(timestamp: number) {
-  const fpsInterval = 1000 / 4
+  const fpsInterval = 1000 / props.fps
   const elapsed = timestamp - lastFrameTime
 
   if (elapsed > fpsInterval) {

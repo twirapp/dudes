@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch, shallowRef, type ShallowRef } from 'vue'
+import { onMounted, onUnmounted, ref, watch, shallowRef } from 'vue'
 import { Dudes } from '@twirapp/dudes'
 import type { AssetsLoaderOptions, DudePartialSettings, SoundAsset } from './types.js'
 
@@ -9,8 +9,8 @@ const props = defineProps<{
   settings?: DudePartialSettings
 }>()
 
-const dudes = shallowRef(null) as ShallowRef<Dudes | null>
-const canvasRef = ref<HTMLCanvasElement | null>(null)
+const dudes = shallowRef<Dudes>()
+const canvasRef = ref<HTMLCanvasElement>()
 
 async function initDudes() {
   if (!dudes.value || !canvasRef.value) return
@@ -43,5 +43,5 @@ defineExpose({
 </script>
 
 <template>
-  <canvas ref="canvasRef"></canvas>
+  <canvas ref="canvasRef" />
 </template>

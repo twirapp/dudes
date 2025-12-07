@@ -3,25 +3,29 @@ import type { FrameObject } from 'pixi.js'
 
 import type { SpriteLoader } from './sprite-loader.js'
 
-export const DudesLayers = {
-  body: 'body',
-  eyes: 'eyes',
-  mouth: 'mouth',
-  hat: 'hat',
-  cosmetics: 'cosmetics'
+export const DudesLayer = {
+  Body: 'body',
+  Eyes: 'eyes',
+  Mouth: 'mouth',
+  Hat: 'hat',
+  Cosmetics: 'cosmetics'
 } as const
-export const DudesLayersKeys = Object.keys(DudesLayers)
-export type DudesLayer = keyof typeof DudesLayers
 
-export const DudesFrameTags = {
-  idle: 'idle',
-  jump: 'jump',
-  fall: 'fall',
-  land: 'land',
-  run: 'run'
+export type DudesLayer = typeof DudesLayer[keyof typeof DudesLayer]
+
+export const DudesLayerValues: DudesLayer[] = Object.values(DudesLayer)
+
+export const DudesFrameTag = {
+  Idle: 'idle',
+  Jump: 'jump',
+  Fall: 'fall',
+  Land: 'land',
+  Walk: 'walk'
 } as const
-export const DudeFrameTagsKeys = Object.keys(DudesFrameTags)
-export type DudeSpriteFrameTag = keyof typeof DudesFrameTags
+
+export type DudesFrameTag = typeof DudesFrameTag[keyof typeof DudesFrameTag]
+
+export const DudesFrameTagValues: DudesFrameTag[] = Object.values(DudesFrameTag)
 
 export type DudeFrameObject = Record<string, FrameObject[]>
 
@@ -31,8 +35,8 @@ export class TextureProvider {
   constructor(private readonly assetsLoader: SpriteLoader) {}
 
   unloadTextures(spriteName: string): void {
-    for (const layer of DudesLayersKeys) {
-      for (const frameTag of DudeFrameTagsKeys) {
+    for (const layer of DudesLayerValues) {
+      for (const frameTag of DudesFrameTagValues) {
         const spriteKey = this.getTextureKey(spriteName, layer, frameTag)
         this.textures.delete(spriteKey)
       }
@@ -69,11 +73,11 @@ export class TextureProvider {
 
   getTexture(
     spriteName: string,
-    frameTag: DudeSpriteFrameTag
+    frameTag: DudesFrameTag
   ): Record<string, AnimatedSprite> {
     const sprites: Record<string, AnimatedSprite> = {}
 
-    for (const layer of DudesLayersKeys) {
+    for (const layer of DudesLayerValues) {
       const spriteKey = this.getTextureKey(spriteName, layer, frameTag)
       const sprite = this.getAnimatedTexture(spriteKey, layer)
       if (sprite) {
