@@ -287,7 +287,7 @@ export class Dude {
   }
 
   private handleFalling(): void {
-    if (this.velocity.y > 0) {
+    if (this.velocity.y > 0 && this.currentFrameTag !== DudesFrameTag.Fall) {
       this.playAnimation(DudesFrameTag.Fall)
     }
   }
