@@ -3,6 +3,9 @@ import antfu from '@antfu/eslint-config'
 export default antfu({
   typescript: true,
   markdown: true,
+  formatters: {
+    css: true,
+  },
   yaml: true,
   vue: true,
   pnpm: false,

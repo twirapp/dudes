@@ -13,10 +13,11 @@
     "changeset": "changeset"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "6.4.2",
+    "@antfu/eslint-config": "6.7.1",
     "@changesets/cli": "2.29.8",
     "@types/node": "22.19.1",
-    "eslint": "9.39.1",
+    "eslint": "9.39.2",
+    "eslint-plugin-format": "1.1.0",
     "turbo": "2.6.3",
     "typescript": "5.9.3"
   },

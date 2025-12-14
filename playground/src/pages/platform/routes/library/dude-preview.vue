@@ -20,8 +20,8 @@
 import { DudesFrameTag } from '@twirapp/dudes-vue'
 import { entries } from '@zero-dependency/utils'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { assetsLoaderOptions, dudesLayers } from '../overlay/constants.js'
-import { frameAnimations } from './constants.js'
+import { assetsLoaderOptions, dudesLayers } from '../../../overlay/constants.js'
+import { frameAnimations } from '../../shared/frame-animations.js'
 
 interface SpriteData {
   src: string

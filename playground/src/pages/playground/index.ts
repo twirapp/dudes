@@ -5,6 +5,10 @@ import App from './playground.vue'
 
 import './index.scss'
 
+const tweakpaneRoot = document.createElement('div')
+tweakpaneRoot.id = 'tweakpane'
+document.body.append(tweakpaneRoot)
+
 createApp(App).use(createPinia()).mount('#app')
 
 if (import.meta.hot) {

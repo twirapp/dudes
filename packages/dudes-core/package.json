@@ -22,11 +22,11 @@
   },
   "dependencies": {
     "@pixi/gif": "2.1.1",
-    "gsap": "3.13.0",
+    "gsap": "3.14.2",
     "pixi.js": "7.4.0"
   },
   "devDependencies": {
-    "vite": "7.2.6",
+    "vite": "7.2.7",
     "vite-plugin-dts": "4.5.4"
   }
 }

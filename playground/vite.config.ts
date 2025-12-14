@@ -27,11 +27,11 @@ export default defineConfig({
           },
         },
         {
-          name: 'configurator',
-          filename: 'configurator.html',
-          entry: '/src/pages/configurator/index.ts',
+          name: 'platform',
+          filename: 'platform.html',
+          entry: '/src/pages/platform/index.ts',
           data: {
-            title: 'Dudes Configurator',
+            title: 'Dudes Platform',
           },
         },
       ],

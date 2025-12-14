@@ -1,13 +1,11 @@
 <template>
-  <Teleport to="body">
+  <div class="container">
     <v-tweakpane
-      style="overflow-y: scroll;"
+      :style="{ marginTop: '64px' }"
       :pane="{ title: 'Dudes Configurator' }"
       @on-pane-created="onPaneCreated"
     />
-  </Teleport>
 
-  <div class="container">
     <dude-preview
       :size="512"
       :sprite="sprite"
@@ -23,8 +21,8 @@ import { capitalize, entries } from '@zero-dependency/utils'
 import { storeToRefs } from 'pinia'
 import { VTweakpane } from 'v-tweakpane'
 import { computed, ref } from 'vue'
-import { dudesLayers } from '../overlay/constants'
-import { useDudesSettings } from '../overlay/use-dudes-settings'
+import { dudesLayers } from '@/pages/overlay/constants'
+import { useDudesSettings } from '@/pages/overlay/use-dudes-settings'
 import DudePreview from './dude-preview.vue'
 import type { Pane } from 'tweakpane'
 import type { Sprite } from './dude-preview.vue'

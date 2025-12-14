@@ -1,11 +1,16 @@
 <template>
-  <Teleport to="body">
+  <Teleport to="#tweakpane">
     <v-tweakpane
-      style="overflow-y: scroll;"
-      :pane="{ title: 'Dudes Playground' }"
-      @on-pane-created="onPaneCreated"
+      :pane="{ title: 'Actions' }"
+      @on-pane-created="paneControls"
+    />
+
+    <v-tweakpane
+      :pane="{ title: 'Options' }"
+      @on-pane-created="paneOptions"
     />
   </Teleport>
+
   <iframe
     ref="dudesIframeRef"
     class="iframe-overlay"
@@ -111,7 +116,23 @@ function spitEmoteDudes() {
   dudesIframe.sendMessage({ type: 'spit-emote', data: emoteName })
 }
 
-function onPaneCreated(pane: Pane) {
+function paneControls(pane: Pane) {
+  pane.addButton({ title: 'Spawn' }).on('click', spawnDude)
+  pane.addButton({ title: 'Jump' }).on('click', jumpDudes)
+  pane.addButton({ title: 'Grow' }).on('click', growDudes)
+  pane.addButton({ title: 'Walk' }).on('click', runDudes)
+  pane.addButton({ title: 'Idle' }).on('click', idleDudes)
+  pane.addButton({ title: 'Leave' }).on('click', leaveDudes)
+  pane.addButton({ title: 'Show message' }).on('click', showMessageDudes)
+  pane.addButton({ title: 'Show emote' }).on('click', spitEmoteDudes)
+  pane.addButton({ title: 'Clear' }).on('click', clearDudes)
+  pane.addBlade({ view: 'separator' })
+  pane.addButton({ title: 'Dudes Platform' }).on('click', () => {
+    window.open('platform.html', '_blank')
+  })
+}
+
+function paneOptions(pane: Pane) {
   const fonts = {
     'Roboto': 'Roboto',
     'Arial': 'Arial',
@@ -237,21 +258,6 @@ function onPaneCreated(pane: Pane) {
     min: 1,
     max: 24,
     step: 0.1,
-  })
-
-  dudeFolder.addBlade({ view: 'separator' })
-  dudeFolder.addButton({ title: 'Spawn' }).on('click', spawnDude)
-  dudeFolder.addButton({ title: 'Jump' }).on('click', jumpDudes)
-  dudeFolder.addButton({ title: 'Grow' }).on('click', growDudes)
-  dudeFolder.addButton({ title: 'Walk' }).on('click', runDudes)
-  dudeFolder.addButton({ title: 'Idle' }).on('click', idleDudes)
-  dudeFolder.addButton({ title: 'Leave' }).on('click', leaveDudes)
-  dudeFolder.addButton({ title: 'Show message' }).on('click', showMessageDudes)
-  dudeFolder.addButton({ title: 'Show emote' }).on('click', spitEmoteDudes)
-  dudeFolder.addButton({ title: 'Clear' }).on('click', clearDudes)
-  dudeFolder.addBlade({ view: 'separator' })
-  dudeFolder.addButton({ title: 'Open configurator' }).on('click', () => {
-    window.open('configurator.html', '_blank')
   })
 
   const messageBoxFolder = pane.addFolder({ title: 'Message', expanded: false })

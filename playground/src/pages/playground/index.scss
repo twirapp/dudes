@@ -39,6 +39,21 @@ body {
   height: 100dvh;
 }
 
+#tweakpane {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  height: 100dvh;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+
+  & > main {
+    position: unset;
+    overflow: auto;
+  }
+}
+
 main {
   position: absolute;
   top: 0px;

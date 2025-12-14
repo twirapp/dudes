@@ -1,13 +1,17 @@
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
-
 import App from './app.vue'
-import Editor from './dude-editor.vue'
+import { router } from './router'
 
 import './index.scss'
 import '../playground/index.scss'
 
-createApp(Editor).use(createPinia()).mount('#app')
+const app = createApp(App)
+const pinia = createPinia()
+
+app.use(router)
+app.use(pinia)
+app.mount('#app')
 
 if (import.meta.hot) {
   import.meta.hot.on('vite:beforeUpdate', () => {
