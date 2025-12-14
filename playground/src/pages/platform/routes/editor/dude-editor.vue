@@ -6,7 +6,11 @@
         <div class="color-picker">
           <label>Цвет:</label>
           <input
-            v-model="currentColor"
+            v-model="colorLeft"
+            type="color"
+          >
+          <input
+            v-model="colorRight"
             type="color"
           >
         </div>
@@ -43,16 +47,6 @@
           </select>
         </div>
 
-        <div class="frame-selector">
-          <label>Кадр: {{ currentFrame }}</label>
-          <input
-            v-model.number="currentFrame"
-            type="range"
-            :min="animationRanges[currentAnimation].from"
-            :max="animationRanges[currentAnimation].to"
-          >
-        </div>
-
         <div class="actions">
           <button @click="clearCanvas">
             Очистить
@@ -81,20 +75,12 @@
           width="32"
           height="32"
           :style="{ width: `${canvasScale * 32}px`, height: `${canvasScale * 32}px` }"
-          @mousedown="startDrawing"
-          @mousemove="draw"
-          @mouseup="stopDrawing"
-          @mouseleave="stopDrawing"
+          @contextmenu.prevent
+          @pointerdown="startDrawing"
+          @pointermove="draw"
+          @pointerup="stopDrawing"
+          @pointerleave="stopDrawing"
         />
-        <div class="zoom-control">
-          <label>Масштаб: {{ canvasScale }}x</label>
-          <input
-            v-model.number="canvasScale"
-            type="range"
-            min="4"
-            max="16"
-          >
-        </div>
       </div>
 
       <!-- Предпросмотр -->
@@ -104,7 +90,7 @@
           ref="previewCanvas"
           width="32"
           height="32"
-          :style="{ width: '128px', height: '128px' }"
+          :style="{ width: '180px', height: '180px' }"
         />
         <div class="preview-controls">
           <button @click="togglePreview">
@@ -130,7 +116,7 @@
           :key="index - 1"
           class="frame-thumbnail"
           :class="{ active: currentRange.from <= index - 1 && index - 1 <= currentRange.to }"
-          @click="currentFrame = index - 1"
+          @click="setLayerFrameIndex(index - 1)"
         >
           <canvas
             :ref="(ref) => (frameCanvases[index - 1] = ref as HTMLCanvasElement)"
@@ -153,18 +139,26 @@
 // 4. Релизовать шорткаты для рисования (draw, erase, fill)
 // 5. Реализовать историю цветов, палитру цветов, смена цвет 1 и цвет 2 (рисование через ЛКМ и ПКМ)
 // 6. Добавить функцию выделения объектов на канвасе с возможность ресайзинга и перемещения (CTRL - выделение, SHIFT - ресайз, ALT - перемещение)
+// 7. Копирование на канвасе
 
+import { entries } from '@zero-dependency/utils'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 
 const countFrames = 9
 const tools = ['draw', 'erase', 'fill'] as const
 type Tool = typeof tools[number]
 
+type Animation = 'idle' | 'walk' | 'jump' | 'land' | 'fall'
+
 const currentTool = ref<Tool>('draw')
-const currentColor = ref('#ffffff')
-const currentAnimation = ref<'idle' | 'walk' | 'jump' | 'land' | 'fall'>('idle')
+
+const colorLeft = ref('#ffffff')
+const colorRight = ref('#000000')
+const drawingMouseButton = ref(0)
+
+const currentAnimation = ref<Animation>('idle')
 const currentFrame = ref(0)
-const canvasScale = ref(10)
+const canvasScale = ref(12)
 const fps = ref(4)
 const isPlaying = ref(false)
 const isDrawing = ref(false)
@@ -176,7 +170,7 @@ const frameCanvases = ref<(HTMLCanvasElement | null)[]>([])
 
 const frames = ref<ImageData[]>([])
 
-const animationRanges = {
+const animationRanges: Record<Animation, { from: number, to: number }> = {
   idle: { from: 0, to: 2 },
   jump: { from: 3, to: 3 },
   fall: { from: 4, to: 4 },
@@ -191,6 +185,16 @@ const currentRange = computed(() => {
 let previewAnimationId: number | null = null
 let lastFrameTime = 0
 let previewFrameIndex = 0
+
+function setLayerFrameIndex(frameIndex: number) {
+  const ranges = entries(animationRanges)
+  for (const [animation, range] of ranges) {
+    if (range.from <= frameIndex && frameIndex <= range.to) {
+      currentAnimation.value = animation
+      break
+    }
+  }
+}
 
 // Инициализация пустых кадров
 function initFrames() {
@@ -243,9 +247,10 @@ function updateFrameThumbnail(index: number) {
 }
 
 // Рисование
-function startDrawing(e: MouseEvent) {
+function startDrawing(event: PointerEvent) {
   isDrawing.value = true
-  draw(e)
+  drawingMouseButton.value = event.button
+  draw(event)
 }
 
 function stopDrawing() {
@@ -268,13 +273,20 @@ function draw(e: MouseEvent) {
 
   if (x < 0 || x >= 32 || y < 0 || y >= 32) return
 
-  if (currentTool.value === 'draw') {
-    ctx.fillStyle = currentColor.value
-    ctx.fillRect(x, y, 1, 1)
-  } else if (currentTool.value === 'erase') {
+  if (currentTool.value === 'erase') {
     ctx.clearRect(x, y, 1, 1)
+    return
+  }
+
+  const color = drawingMouseButton.value === 0
+    ? colorLeft.value
+    : colorRight.value
+
+  if (currentTool.value === 'draw') {
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, 1, 1)
   } else if (currentTool.value === 'fill') {
-    floodFill(ctx, x, y, currentColor.value)
+    floodFill(ctx, x, y, color)
   }
 }
 
@@ -473,7 +485,10 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .sprite-editor {
   padding: 20px;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
   background: #1e1e1e;
   color: #fff;
   min-height: 100vh;
@@ -483,6 +498,12 @@ onUnmounted(() => {
   display: flex;
   gap: 20px;
   margin-bottom: 30px;
+}
+
+.color-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .toolbar {
@@ -496,12 +517,11 @@ onUnmounted(() => {
 
   label {
     display: block;
-    margin-bottom: 5px;
     font-size: 12px;
     color: #999;
   }
 
-  input[type="color"] {
+  input[type='color'] {
     width: 100%;
     height: 40px;
     border: none;
@@ -509,7 +529,7 @@ onUnmounted(() => {
     cursor: pointer;
   }
 
-  input[type="range"] {
+  input[type='range'] {
     width: 100%;
   }
 
@@ -585,13 +605,12 @@ onUnmounted(() => {
 
   canvas {
     border: 2px solid #444;
-    background: repeating-conic-gradient(#2d2d2d 0% 25%, #1e1e1e 0% 50%) 50% / 20px 20px;
+    background: repeating-conic-gradient(#2d2d2d 0% 25%, #1e1e1e 0% 50%) 50% / 24px 24px;
     image-rendering: pixelated;
     cursor: crosshair;
   }
 }
 
-.zoom-control,
 .preview-controls {
   display: flex;
   flex-direction: column;
@@ -630,7 +649,7 @@ onUnmounted(() => {
 
 .frames-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 10px;
 }
 
@@ -656,8 +675,8 @@ onUnmounted(() => {
   }
 
   canvas {
-    width: 32px;
-    height: 32px;
+    width: 64px;
+    height: 64px;
     image-rendering: pixelated;
     background: repeating-conic-gradient(#2d2d2d 0% 25%, #1e1e1e 0% 50%) 50% / 8px 8px;
   }
