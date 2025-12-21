@@ -21,30 +21,30 @@ import { PLATFORM_ROUTES } from '../router'
 
 <style scoped lang="scss">
 .header {
-  padding: 8px 16px;
-  background-color: hsl(var(--primary-foreground));
   border-bottom: 1px solid hsl(var(--border));
+  background-color: hsl(var(--primary-foreground));
+  padding: 8px 16px;
 
   &-nav {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 8px;
     height: 100%;
-    align-items: center;
   }
 
   &-link {
-    padding: 8px 16px;
     border-radius: 4px;
+    background-color: hsl(var(--secondary));
+    padding: 8px 16px;
+    color: hsl(var(--secondary-foreground));
     font-weight: 500;
     font-size: 14px;
     text-decoration: none;
-    background-color: hsl(var(--secondary));
-    color: hsl(var(--secondary-foreground));
 
     &.active {
-      color: hsl(var(--primary-foreground));
       background-color: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
     }
   }
 }

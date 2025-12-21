@@ -61,6 +61,7 @@ export class Dude {
 
   private onRemoveCallbacks: (() => void)[] = []
 
+  // eslint-disable-next-line max-params
   constructor(
     public readonly config: DudesTypes.DudeConfig,
     private readonly textureProvider: TextureProvider,

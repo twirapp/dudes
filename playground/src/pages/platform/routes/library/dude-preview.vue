@@ -137,34 +137,34 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .dude-preview {
-  width: v-bind(previewSize);
-  height: v-bind(previewSize);
+  position: relative;
   outline: 2px solid #e3e3e3;
   border-radius: 8px;
-  position: relative;
   background-color: #444;
+  width: v-bind(previewSize);
+  height: v-bind(previewSize);
 
   .frame {
     position: absolute;
     left: 0;
-    width: inherit;
-    height: inherit;
     background-image: var(--frame-url);
+    background-position: var(--frame-x) var(--frame-y);
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: var(--frame-x) var(--frame-y);
     image-rendering: pixelated;
+    width: inherit;
+    height: inherit;
 
     .mask {
+      mix-blend-mode: multiply;
+      mask-image: var(--frame-url);
+      mask-mode: alpha;
+      mask-position: var(--frame-x) var(--frame-y);
+      mask-size: cover;
+      background-size: cover;
+      background-color: var(--frame-color);
       width: inherit;
       height: inherit;
-      mask-mode: alpha;
-      mask-size: cover;
-      mask-image: var(--frame-url);
-      mask-position: var(--frame-x) var(--frame-y);
-      mix-blend-mode: multiply;
-      background-color: var(--frame-color);
-      background-size: cover;
     }
   }
 }

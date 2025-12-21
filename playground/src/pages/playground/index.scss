@@ -1,8 +1,10 @@
 @import 'v-tweakpane/dist/v-tweakpane.css';
 
-*, ::before, ::after {
-  margin: 0;
+*,
+::before,
+::after {
   box-sizing: border-box;
+  margin: 0;
 }
 
 :root {
@@ -30,8 +32,8 @@
 }
 
 body {
-  overflow: hidden;
   background-color: #333;
+  overflow: hidden;
   color: #fff;
 }
 
@@ -40,13 +42,13 @@ body {
 }
 
 #tweakpane {
+  display: flex;
   position: fixed;
   top: 0px;
   right: 0px;
-  height: 100dvh;
-  display: flex;
   gap: 8px;
   padding: 8px;
+  height: 100dvh;
 
   & > main {
     position: unset;
@@ -63,14 +65,14 @@ main {
 
 /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
 * {
-  scrollbar-width: thin;
   scrollbar-color: #000000 transparent;
+  scrollbar-width: thin;
 }
 
 /* Chrome, Edge and Safari */
 *::-webkit-scrollbar {
-  height: 4px;
   width: 4px;
+  height: 4px;
 }
 *::-webkit-scrollbar-track {
   border-radius: 4px;

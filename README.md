@@ -81,13 +81,13 @@ onMounted(async () => {
 
 <style>
 * {
-  margin: 0;
   box-sizing: border-box;
+  margin: 0;
 }
 
 body {
-  overflow: hidden;
   background: #000;
+  overflow: hidden;
 }
 </style>
 ```

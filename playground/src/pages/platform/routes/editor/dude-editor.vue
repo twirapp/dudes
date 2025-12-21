@@ -291,6 +291,7 @@ function draw(e: MouseEvent) {
 }
 
 // Заливка (простая реализация flood fill)
+// eslint-disable-next-line max-params
 function floodFill(ctx: CanvasRenderingContext2D, startX: number, startY: number, fillColor: string) {
   const imageData = ctx.getImageData(0, 0, 32, 32)
   const data = imageData.data
@@ -484,14 +485,14 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .sprite-editor {
+  background: #1e1e1e;
   padding: 20px;
+  min-height: 100vh;
+  color: #fff;
   font-family:
     system-ui,
     -apple-system,
     sans-serif;
-  background: #1e1e1e;
-  color: #fff;
-  min-height: 100vh;
 }
 
 .editor-container {
@@ -510,23 +511,23 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding: 15px;
-  background: #2d2d2d;
   border-radius: 8px;
+  background: #2d2d2d;
+  padding: 15px;
   min-width: 200px;
 
   label {
     display: block;
-    font-size: 12px;
     color: #999;
+    font-size: 12px;
   }
 
   input[type='color'] {
-    width: 100%;
-    height: 40px;
+    cursor: pointer;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
+    width: 100%;
+    height: 40px;
   }
 
   input[type='range'] {
@@ -534,12 +535,12 @@ onUnmounted(() => {
   }
 
   select {
-    width: 100%;
-    padding: 8px;
-    background: #1e1e1e;
-    color: #fff;
     border: 1px solid #444;
     border-radius: 4px;
+    background: #1e1e1e;
+    padding: 8px;
+    width: 100%;
+    color: #fff;
   }
 }
 
@@ -549,21 +550,21 @@ onUnmounted(() => {
   gap: 5px;
 
   button {
-    padding: 8px;
-    background: #1e1e1e;
-    color: #fff;
+    transition: all 0.2s;
+    cursor: pointer;
     border: 1px solid #444;
     border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
+    background: #1e1e1e;
+    padding: 8px;
+    color: #fff;
 
     &:hover {
       background: #333;
     }
 
     &.active {
-      background: #0078d4;
       border-color: #0078d4;
+      background: #0078d4;
     }
   }
 }
@@ -574,13 +575,13 @@ onUnmounted(() => {
   gap: 5px;
 
   button {
-    padding: 8px;
-    background: #0078d4;
-    color: #fff;
+    transition: background 0.2s;
+    cursor: pointer;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s;
+    background: #0078d4;
+    padding: 8px;
+    color: #fff;
 
     &:hover {
       background: #005a9e;
@@ -593,21 +594,21 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 15px;
-  background: #2d2d2d;
   border-radius: 8px;
+  background: #2d2d2d;
+  padding: 15px;
 
   h3 {
     margin: 0 0 10px 0;
-    font-size: 14px;
     color: #999;
+    font-size: 14px;
   }
 
   canvas {
+    cursor: crosshair;
     border: 2px solid #444;
     background: repeating-conic-gradient(#2d2d2d 0% 25%, #1e1e1e 0% 50%) 50% / 24px 24px;
     image-rendering: pixelated;
-    cursor: crosshair;
   }
 }
 
@@ -617,17 +618,17 @@ onUnmounted(() => {
   gap: 5px;
 
   label {
-    font-size: 12px;
     color: #999;
+    font-size: 12px;
   }
 
   button {
-    padding: 8px;
-    background: #0078d4;
-    color: #fff;
+    cursor: pointer;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
+    background: #0078d4;
+    padding: 8px;
+    color: #fff;
 
     &:hover {
       background: #005a9e;
@@ -636,14 +637,14 @@ onUnmounted(() => {
 }
 
 .timeline {
-  padding: 15px;
-  background: #2d2d2d;
   border-radius: 8px;
+  background: #2d2d2d;
+  padding: 15px;
 
   h3 {
     margin: 0 0 15px 0;
-    font-size: 14px;
     color: #999;
+    font-size: 14px;
   }
 }
 
@@ -658,12 +659,12 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  padding: 8px;
-  background: #1e1e1e;
+  transition: all 0.2s;
+  cursor: pointer;
   border: 2px solid #444;
   border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
+  background: #1e1e1e;
+  padding: 8px;
 
   &:hover {
     border-color: #666;
@@ -675,15 +676,15 @@ onUnmounted(() => {
   }
 
   canvas {
+    background: repeating-conic-gradient(#2d2d2d 0% 25%, #1e1e1e 0% 50%) 50% / 8px 8px;
+    image-rendering: pixelated;
     width: 64px;
     height: 64px;
-    image-rendering: pixelated;
-    background: repeating-conic-gradient(#2d2d2d 0% 25%, #1e1e1e 0% 50%) 50% / 8px 8px;
   }
 
   span {
-    font-size: 11px;
     color: #999;
+    font-size: 11px;
   }
 }
 </style>
