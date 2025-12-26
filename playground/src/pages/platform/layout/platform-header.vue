@@ -24,6 +24,7 @@ import { PLATFORM_ROUTES } from '../router'
   border-bottom: 1px solid hsl(var(--border));
   background-color: hsl(var(--primary-foreground));
   padding: 8px 16px;
+  min-height: 52px;
 
   &-nav {
     display: flex;

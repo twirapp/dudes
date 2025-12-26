@@ -24,7 +24,7 @@ export const router = createRouter({
     },
     {
       path: '/editor',
-      component: () => import('./routes/editor/dudes-editor.vue'),
+      component: () => import('./routes/editor/editor.vue'),
     },
   ],
 })
