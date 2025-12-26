@@ -73,8 +73,8 @@ onMounted(() => {
 
   &-container {
     display: flex;
-    gap: 20px;
-    margin-bottom: 30px;
+    gap: 16px;
+    margin-bottom: 16px;
   }
 }
 </style>

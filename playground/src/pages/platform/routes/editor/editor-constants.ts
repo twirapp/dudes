@@ -6,6 +6,7 @@ export type EditorTool = typeof EDITOR_TOOLS[number]
 
 export const TOTAL_FRAMES = 9
 export const CANVAS_SCALE = 12
+export const CANVAS_CELL_SIZE = `${CANVAS_SCALE * 2}px`
 export const SPRITE_SIZE = 32
 
 export interface AnimationRange {

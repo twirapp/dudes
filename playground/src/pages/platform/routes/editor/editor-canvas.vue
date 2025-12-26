@@ -22,7 +22,7 @@
 import { useElementBounding } from '@vueuse/core'
 import { hexToRgb } from '@zero-dependency/utils'
 import EditorCard from './editor-card.vue'
-import { CANVAS_SCALE, SPRITE_SIZE } from './editor-constants'
+import { CANVAS_CELL_SIZE, CANVAS_SCALE, SPRITE_SIZE } from './editor-constants'
 import { useEditor } from './use-editor'
 import { useEditorCanvas } from './use-editor-canvas'
 
@@ -142,7 +142,8 @@ function floodFill(startX: number, startY: number, fillColor: string) {
 .editor-canvas {
   cursor: crosshair;
   outline: 2px solid #444;
-  background: repeating-conic-gradient(#2d2d2d 0% 25%, #1e1e1e 0% 50%) 50% / 24px 24px;
+  background: repeating-conic-gradient(#2d2d2d 0% 25%, #1e1e1e 0% 50%) 50% / v-bind('CANVAS_CELL_SIZE')
+    v-bind('CANVAS_CELL_SIZE');
   image-rendering: pixelated;
 }
 </style>
