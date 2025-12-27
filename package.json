@@ -2,20 +2,35 @@
   "name": "dudes-workspace",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@10.24.0",
   "scripts": {
-    "dev": "turbo dev --filter=./apps/*",
-    "build": "turbo build --filter=./apps/*",
-    "format": "prettier --write \"**/*.{js,ts,json}\"",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "build:playground": "turbo build --filter=./playground",
+    "type-check": "turbo type-check",
+    "lint": "eslint . --cache",
+    "lint:fix": "eslint . --fix --cache",
     "changeset": "changeset"
   },
   "devDependencies": {
-    "@changesets/cli": "2.27.1",
-    "@crashmax/prettier-config": "5.0.2",
-    "turbo": "1.13.0"
+    "@antfu/eslint-config": "6.7.3",
+    "@changesets/cli": "2.29.8",
+    "@types/node": "22.19.1",
+    "eslint": "9.39.2",
+    "eslint-plugin-format": "1.1.0",
+    "eslint-plugin-pinia": "0.4.2",
+    "prettier-plugin-css-order": "2.1.2",
+    "turbo": "2.7.2",
+    "typescript": "5.9.3"
   },
   "pnpm": {
     "patchedDependencies": {
       "v-tweakpane@0.3.2": "patches/v-tweakpane@0.3.2.patch"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild",
+      "vue-demi"
+    ]
   }
 }

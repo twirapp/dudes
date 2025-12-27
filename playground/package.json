@@ -1,0 +1,30 @@
+{
+  "name": "@dudes/playground",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "pnpm type-check && vite build",
+    "type-check": "vue-tsc --build"
+  },
+  "dependencies": {
+    "@tweakpane/core": "2.0.5",
+    "@tweakpane/plugin-essentials": "0.2.1",
+    "@twirapp/dudes-vue": "workspace:^",
+    "@vueuse/core": "14.1.0",
+    "@zero-dependency/utils": "1.7.8",
+    "pinia": "3.0.4",
+    "tweakpane": "4.0.5",
+    "v-tweakpane": "0.3.2",
+    "vue": "3.5.26",
+    "vue-router": "4.6.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.3",
+    "sass-embedded": "1.97.1",
+    "vite": "7.3.0",
+    "vite-plugin-virtual-mpa": "1.12.1",
+    "vue-tsc": "3.2.1"
+  }
+}

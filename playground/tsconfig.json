@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "jsx": "preserve",
+    "lib": [
+      "ES2023",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "useDefineForClassFields": true,
+
+    /* Alias */
+    "baseUrl": ".",
+    "module": "ESNext",
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "resolveJsonModule": true,
+
+    "types": [
+      "vite/client"
+    ],
+    "allowImportingTsExtensions": true,
+
+    /* Linting */
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ]
+}

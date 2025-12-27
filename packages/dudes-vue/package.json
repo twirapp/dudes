@@ -1,0 +1,35 @@
+{
+  "name": "@twirapp/dudes-vue",
+  "type": "module",
+  "version": "0.1.0",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/dudes-vue.js",
+      "require": "./dist/dudes-vue.umd.cjs"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vue-tsc --declaration --emitDeclarationOnly && vite build",
+    "type-check": "vue-tsc --build"
+  },
+  "peerDependencies": {
+    "vue": ">=3.5.0"
+  },
+  "dependencies": {
+    "@twirapp/dudes": "workspace:*",
+    "vue": "3.5.26"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.3",
+    "vite": "7.3.0",
+    "vue-tsc": "3.2.1"
+  }
+}

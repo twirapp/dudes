@@ -1,0 +1,32 @@
+{
+  "name": "@twirapp/dudes",
+  "type": "module",
+  "version": "1.2.0",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/dudes.js",
+      "require": "./dist/dudes.umd.cjs"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "pnpm type-check && vite build",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pixi/gif": "2.1.1",
+    "gsap": "3.14.2",
+    "pixi.js": "7.4.0"
+  },
+  "devDependencies": {
+    "vite": "7.3.0",
+    "vite-plugin-dts": "4.5.4"
+  }
+}

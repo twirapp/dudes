@@ -11,13 +11,22 @@ pnpm add @twirapp/dudes-vue
 ## Usage
 
 ```vue
+<template>
+  <dudes-overlay
+    ref="dudesRef"
+    :assets-loader-options="assetsLoaderOptions"
+    :sounds="soundAssets"
+    :settings="settings"
+  />
+</template>
+
 <script setup lang="ts">
 import DudesOverlay, { DudesLayers } from '@twirapp/dudes-vue'
 import { onMounted, ref } from 'vue'
 
 import type {
-  DudePartialSettings,
   AssetsLoaderOptions,
+  DudePartialSettings,
   SoundAsset
 } from '@twirapp/dudes-vue/types'
 
@@ -29,7 +38,7 @@ const soundAssets: SoundAsset[] = [
 ]
 
 const assetsLoaderOptions: AssetsLoaderOptions = {
-  basePath: location.href + 'sprites/',
+  basePath: `${location.href}sprites/`,
   defaultSearchParams: {
     ts: Date.now()
   }
@@ -65,27 +74,20 @@ onMounted(async () => {
       ]
     }
   })
+
+  dude.jump()
 })
 </script>
 
-<template>
-  <dudes-overlay
-    ref="dudesRef"
-    :assets-loader-options="assetsLoaderOptions"
-    :sounds="soundAssets"
-    :settings="settings"
-  />
-</template>
-
 <style>
 * {
-  margin: 0;
   box-sizing: border-box;
+  margin: 0;
 }
 
 body {
-  overflow: hidden;
   background: #000;
+  overflow: hidden;
 }
 </style>
 ```
