@@ -73,9 +73,8 @@ import { useEditorCanvas } from './use-editor-canvas'
 
 const {
   editorContext,
-  loadFrameToEditor,
+  loadSprite,
   saveFrameFromEditor,
-  updateFrameThumbnail,
 } = useEditorCanvas()
 
 const {
@@ -125,34 +124,8 @@ function importSprite() {
 function handleImport(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (!file) return
-
-  const img = new Image()
-  img.onload = () => {
-    const tempCanvas = document.createElement('canvas')
-    tempCanvas.width = img.width
-    tempCanvas.height = img.height
-    const ctx = tempCanvas.getContext('2d', { willReadFrequently: true })
-    if (!ctx) return
-
-    ctx.drawImage(img, 0, 0)
-
-    for (let i = 0; i < TOTAL_FRAMES; i++) {
-      const frameData = ctx.getImageData(
-        i * SPRITE_SIZE,
-        0,
-        SPRITE_SIZE,
-        SPRITE_SIZE,
-      )
-      frames.value[i] = frameData
-      updateFrameThumbnail(i)
-    }
-
-    loadFrameToEditor()
-    tempCanvas.remove()
-    img.remove()
-  }
-
-  img.src = URL.createObjectURL(file)
+  const fileUrl = URL.createObjectURL(file)
+  loadSprite(fileUrl)
 }
 </script>
 

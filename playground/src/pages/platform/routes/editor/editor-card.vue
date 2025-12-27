@@ -1,14 +1,15 @@
 <template>
   <div class="editor-card">
-    <h3>{{ title }}</h3>
-
+    <h3 v-if="title">
+      {{ title }}
+    </h3>
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  title: string
+  title?: string
 }>()
 </script>
 
@@ -19,7 +20,8 @@ defineProps<{
   gap: 10px;
   border-radius: 8px;
   background: #2d2d2d;
-  padding: 15px;
+  padding: 12px;
+  width: 100%;
 
   h3 {
     margin: 0 0 10px 0;

@@ -3,8 +3,8 @@ import { SPRITE_SIZE, TOTAL_FRAMES } from './editor-constants'
 import { useEditor } from './use-editor'
 
 const editorCanvasRef = shallowRef<HTMLCanvasElement>()
-const previewCanvasRef = shallowRef<HTMLCanvasElement>()
 const frameCanvasRefs = shallowRef<HTMLCanvasElement[]>([])
+const editorPreviewCanvasRef = shallowRef<HTMLCanvasElement>()
 
 export function useEditorCanvas() {
   const {
@@ -19,8 +19,8 @@ export function useEditorCanvas() {
     return ctx
   })
 
-  const previewContext = computed(() => {
-    const ctx = previewCanvasRef.value?.getContext('2d')
+  const editorPreviewContext = computed(() => {
+    const ctx = editorPreviewCanvasRef.value?.getContext('2d')
     if (!ctx) return
     ctx.imageSmoothingEnabled = false
     return ctx
@@ -53,30 +53,62 @@ export function useEditorCanvas() {
     ctx.imageSmoothingEnabled = false
   }
 
-  function initFrames() {
-    const ctx = editorContext.value
-    if (!ctx) return
+  // function initFrames() {
+  //   const ctx = editorContext.value
+  //   if (!ctx) return
+  //   for (let i = 0; i < TOTAL_FRAMES; i++) {
+  //     const imageData = ctx.createImageData(SPRITE_SIZE, SPRITE_SIZE)
+  //     for (let j = 0; j < imageData.data.length; j += 4) {
+  //       imageData.data[j + 3] = 0
+  //     }
+  //     frames.value.push(imageData)
+  //   }
+  // }
 
-    for (let i = 0; i < TOTAL_FRAMES; i++) {
-      const imageData = ctx.createImageData(SPRITE_SIZE, SPRITE_SIZE)
-      for (let j = 0; j < imageData.data.length; j += 4) {
-        imageData.data[j + 3] = 0
+  function loadSprite(fileUrl: string) {
+    return new Promise<void>((resolve, reject) => {
+      const img = new Image()
+      img.src = fileUrl
+      img.onerror = reject
+      img.onload = () => {
+        const tempCanvas = document.createElement('canvas')
+        tempCanvas.width = img.width
+        tempCanvas.height = img.height
+        const ctx = tempCanvas.getContext('2d', { willReadFrequently: true })
+        if (!ctx) return
+
+        ctx.drawImage(img, 0, 0)
+
+        for (let i = 0; i < TOTAL_FRAMES; i++) {
+          const frameData = ctx.getImageData(
+            i * SPRITE_SIZE,
+            0,
+            SPRITE_SIZE,
+            SPRITE_SIZE,
+          )
+          frames.value[i] = frameData
+          updateFrameThumbnail(i)
+        }
+
+        loadFrameToEditor()
+        tempCanvas.remove()
+        img.remove()
+        resolve()
       }
-      frames.value.push(imageData)
-    }
+    })
   }
 
   return {
     editorCanvasRef,
-    previewCanvasRef,
+    editorPreviewCanvasRef,
     frameCanvasRefs,
 
     editorContext,
-    previewContext,
+    editorPreviewContext,
 
     loadFrameToEditor,
     saveFrameFromEditor,
     updateFrameThumbnail,
-    initFrames,
+    loadSprite,
   }
 }

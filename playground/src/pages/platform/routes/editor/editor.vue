@@ -5,16 +5,16 @@
 
       <editor-canvas />
 
-      <editor-animation-preview />
+      <!-- <animation-preview /> -->
     </div>
 
-    <editor-layers />
+    <!-- <editor-layers /> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import EditorAnimationPreview from './editor-animation-preview.vue'
+import AnimationPreview from './animation-preview/animation-preview.vue'
 import EditorCanvas from './editor-canvas.vue'
 import EditorLayers from './editor-layers.vue'
 import EditorToolbar from './editor-toolbar.vue'
@@ -24,8 +24,8 @@ import type { DudesFrameTag } from '@twirapp/dudes-vue'
 import type { EditorTool } from './editor-constants'
 
 const tool = ref<EditorTool>('draw')
-const colorLeft = ref('#ffffff')
-const colorRight = ref('#000000')
+const colorLeft = ref('#e6ac0c')
+const colorRight = ref('#ffffff')
 const drawingKey = ref(0)
 
 const fps = ref(4)
@@ -50,7 +50,7 @@ provideEditor({
 
 const {
   editorContext,
-  initFrames,
+  loadSprite,
   loadFrameToEditor,
 } = useEditorCanvas()
 
@@ -60,7 +60,7 @@ watch(currentFrameIndex, () => {
 
 onMounted(() => {
   if (!editorContext.value) return
-  initFrames()
+  loadSprite('/sprites/body/cat.png')
 })
 </script>
 
@@ -75,6 +75,8 @@ onMounted(() => {
     display: flex;
     gap: 16px;
     margin-bottom: 16px;
+    width: 100%;
+    height: 100%;
   }
 }
 </style>
