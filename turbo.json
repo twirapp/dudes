@@ -12,6 +12,25 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "test": {
+      "dependsOn": [],
+      "outputs": [],
+      "inputs": [
+        "tests/**",
+        "src/**",
+        "package.json",
+        "../../packages/dudes-sprite/src/**"
+      ]
+    },
+    "type-check": {
+      "dependsOn": [],
+      "inputs": [
+        "src/**",
+        "tests/**",
+        "package.json",
+        "../../packages/dudes-sprite/src/**"
+      ]
     }
   }
 }

@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "turbo dev --filter=./apps/*",
     "build": "turbo build --filter=./apps/*",
+    "test": "turbo test",
+    "type-check": "turbo type-check",
     "format": "prettier --write \"**/*.{js,ts,json}\"",
     "changeset": "changeset"
   },
