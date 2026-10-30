@@ -1,0 +1,25 @@
+{
+  "name": "@twirapp/dudes-mcp",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist/index.js --external:@modelcontextprotocol/sdk",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "@twirapp/dudes-sprite": "workspace:*",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.26",
+    "esbuild": "0.25.0",
+    "tsx": "4.23.15",
+    "typescript": "5.4.3",
+    "vitest": "1.4.0"
+  }
+}
