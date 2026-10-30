@@ -1,0 +1,27 @@
+{
+  "name": "@dudes/editor",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "templates": "tsx scripts/build-templates.ts",
+    "test": "vitest run",
+    "type-check": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@twirapp/dudes-sprite": "workspace:*",
+    "idb-keyval": "6.3.0",
+    "vue": "3.4.21"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.26",
+    "@vitejs/plugin-vue": "5.0.4",
+    "typescript": "5.4.3",
+    "tsx": "4.23.15",
+    "vite": "5.2.6",
+    "vitest": "1.4.0",
+    "vue-tsc": "2.0.7"
+  }
+}
