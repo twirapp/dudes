@@ -98,6 +98,16 @@ Sprite size is 32x32.
 
 Example can be found in [sprites](apps/playground/public/sprites) folder.
 
+## Editor and MCP
+
+- [`apps/editor`](apps/editor) — local pixel editor: templates, layers, frame-by-frame drawing, autosave, zip export in the engine format.
+- [`apps/mcp`](apps/mcp) — MCP server that lets a multimodal model draw dudes from scratch and export the same packages.
+
+```bash
+pnpm --filter @dudes/editor dev
+pnpm --filter @twirapp/dudes-mcp build
+```
+
 ## Useful links
 
 - [https://0x72.itch.io/pixeldudesmaker](https://0x72.itch.io/pixeldudesmaker)
